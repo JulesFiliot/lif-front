@@ -1,13 +1,13 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-import '../styles/components/layout.scss';
+import Navbar from './Navbar';
 
 function Layout() {
   return (
-    <div className="layout-content-container">
-      {/* // todo - add header */}
+    <>
+      <Navbar />
       <Outlet />
-    </div>
+    </>
   );
 }
 

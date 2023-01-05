@@ -1,0 +1,13 @@
+@use "../variables.scss" as *;
+
+.navbar-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 5px;
+
+  .logo {
+    width: 40px;
+    height: 40px;
+  }
+}
