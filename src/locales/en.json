@@ -1,5 +1,11 @@
 {
   "translation": {
-    "test": "hello world"
+    "test": "hello world",
+    "navbar": {
+      "profile": "Profile",
+      "achievements": "Achievements",
+      "discover": "Discover",
+      "logout": "Logout"
+    }
   }
 }

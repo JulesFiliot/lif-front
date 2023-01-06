@@ -1,5 +1,11 @@
 {
   "translation": {
-    "test": "bonjour le monde"
+    "test": "bonjour le monde",
+    "navbar": {
+      "profile": "Profil",
+      "achievements": "Réussites",
+      "discover": "Découvrir",
+      "logout": "Déconnexion"
+    }
   }
 }
