@@ -1,6 +1,9 @@
 {
   "translation": {
     "test": "bonjour le monde",
+    "searchBar" : {
+      "placeholder": "Rechercher..."
+    },
     "navbar": {
       "profile": "Profil",
       "achievements": "Réussites",

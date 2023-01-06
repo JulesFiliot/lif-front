@@ -1,0 +1,52 @@
+/* stylelint-disable selector-class-pattern */
+@use "../../variables.scss" as *;
+
+.search-input {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 200px;
+
+  input {
+    height: 35px;
+    width: 100%;
+    padding: 5px 10px;
+    border: none;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+
+    &:focus-visible {
+      outline: none;
+    }
+  }
+
+  .icon-container {
+    height: 35px;
+    background-color: $background-color-lighter;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+
+    .search-icon {
+      width: 35px;
+      height: 35px;
+
+      circle,
+      path {
+        stroke: $sub-color1;
+      }
+    }
+  }
+}
+
+.MuiAutocomplete-input {
+  background-color: $background-color-lighter;
+}
+
+.MuiAutocomplete-listbox,
+.MuiAutocomplete-noOptions {
+  background-color: $background-color-lighter;
+}
+
+.MuiAutocomplete-option[aria-selected="true"] {
+  opacity: 0.2;
+}

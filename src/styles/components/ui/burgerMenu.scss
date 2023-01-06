@@ -18,6 +18,10 @@ $button-width: 30px;
     opacity: 0.7;
   }
 
+  &:focus {
+    opacity: 1;
+  }
+
   &.active {
     .top {
       transform: translateY(8px) translateX(0) rotate(45deg);
@@ -74,66 +78,31 @@ $button-width: 30px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    font-size: 60px;
 
-    // font-weight: bold;
-    text-align: center;
-    text-transform: capitalize;
-  }
-
-  ul {
-    list-style: none;
-    padding: 0;
-    margin: 0 auto;
-    display: inline-block;
-    position: relative;
-    height: 100%;
-
-    li {
-      display: block;
-
-      // height: 25%;
-
-      // height: calc(100% / 4);
-      min-height: 50px;
-      position: relative;
+    div {
+      text-align: center;
       opacity: 0;
+      margin-left: 50%;
 
       a {
-        display: block;
-        position: relative;
+        text-transform: capitalize;
         color: $color-link;
         text-decoration: none;
-        overflow: hidden;
+        font-size: 2rem;
 
-        /* stylelint-disable-next-line no-descending-specificity */
-        &::after {
-          content: "";
-          position: absolute;
-          bottom: 0;
-          left: 50%;
-          width: 0%;
-          transform: translateX(-50%);
-          height: 3px;
-          background: $color-link;
-          transition: 0.35s;
-        }
-
-        &:hover::after,
-        &:focus::after,
-        &:active::after {
-          width: 100%;
+        &:hover {
+          color: $main-color;
         }
       }
     }
   }
 
   &.open {
-    opacity: 0.9;
+    opacity: 0.95;
     visibility: visible;
     height: 100%;
 
-    li {
+    div {
       animation: fadeinright 0.5s ease forwards;
       animation-delay: 0.35s;
 
@@ -155,11 +124,11 @@ $button-width: 30px;
 @keyframes fadeinright {
   0% {
     opacity: 0;
-    left: 20%;
+    margin-left: 20%;
   }
 
   100% {
     opacity: 1;
-    left: 0;
+    margin-left: 0;
   }
 }

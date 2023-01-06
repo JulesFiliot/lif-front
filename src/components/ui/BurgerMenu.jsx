@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { t } from 'i18next';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import '../../styles/components/ui/burgerMenu.scss';
 
-export default function BurgerMenu() {
+export default function BurgerMenu({ items }) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -25,20 +25,16 @@ export default function BurgerMenu() {
       </div>
       <div className={`overlay${isOpen ? ' open' : ''}`}>
         <nav className="overlay-menu">
-          <div><Link to="/">{t('navbar.profile')}</Link></div>
-          <div><Link to="/">{t('navbar.achievements')}</Link></div>
-          <div><Link to="/">{t('navbar.discover')}</Link></div>
-          <div><Link to="/">{t('navbar.logout')}</Link></div>
+          {items.map((i) => (
+            <div key={`${i.name}-${i.link}-${i}`}><Link to={i.link}>{i.name}</Link></div>
+          ))}
         </nav>
-        {/* <nav className="overlay-menu">
-          <ul>
-            <li><Link to="/">{t('navbar.profile')}</Link></li>
-            <li><Link to="/">{t('navbar.achievements')}</Link></li>
-            <li><Link to="/">{t('navbar.discover')}</Link></li>
-            <li><Link to="/">{t('navbar.logout')}</Link></li>
-          </ul>
-        </nav> */}
       </div>
     </>
   );
 }
+BurgerMenu.propTypes = {
+  items: PropTypes
+    .arrayOf(PropTypes.shape({ name: PropTypes.string, link: PropTypes.string }))
+    .isRequired,
+};
