@@ -13,7 +13,14 @@ function App() {
       }}
     >
       <header className="App-header">
-        <SearchBar />
+        <SearchBar
+          reqUrl="http://openlibrary.org/search.json"
+          reqField="title"
+          formatData={(data) => data.docs.map((book) => ({ id: book.key, label: book.title }))}
+          onChange={(event, newValue) => {
+            console.log('fetched data:', newValue);
+          }}
+        />
         <p>{t('test')}</p>
         <p>{t('test')}</p>
         <p>{t('test')}</p>
