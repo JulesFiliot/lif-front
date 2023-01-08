@@ -1,7 +1,12 @@
 /* stylelint-disable selector-class-pattern */
 @use "../../variables.scss" as *;
 
+.search-bar {
+  transition: width 0.3s ease-in-out;
+}
+
 .search-input {
+  transition: width 0.3s ease-in-out;
   display: flex;
   flex-direction: row;
   align-items: center;

@@ -1,5 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useState, useMemo } from 'react';
+import axios from 'axios';
 import PropTypes from 'prop-types';
 import debounce from 'lodash.debounce';
 import Autocomplete from '@mui/material/Autocomplete';
@@ -9,45 +10,44 @@ import searchIcon from '../../assets/search_icon.svg';
 import '../../styles/components/ui/searchBar.scss';
 
 export default function SearchBar({
-  reqUrl, placeholder, icon, reqField, formatData, onChange,
+  reqUrl, placeholder, icon, reqField, formatData, onChange, width,
 }) {
   const [options, setOptions] = useState([]);
-  const [selectedValue, setSelectedValue] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const fetchData = (event, inputValue) => {
     if (inputValue) {
-      fetch(`${reqUrl}?${reqField}=${inputValue}`)
-        .then((response) => response.json())
-        .then((data) => {
+      setIsLoading(true);
+      setOptions([]);
+      axios.get(`${reqUrl}?${reqField}=${inputValue}`)
+        .then((res) => {
+          const { data } = res;
           setOptions(formatData(data));
-        });
+        })
+        .finally(() => setIsLoading(false));
     }
   };
 
-  const onInputChange = useMemo(
-    () => debounce(fetchData, 300),
-    [],
-  );
+  const onInputChange = useMemo(() => debounce(fetchData, 500), []);
 
-  // todo warning when changing input value with a selected value
   return (
     <Autocomplete
       className="search-bar"
       filterOptions={(x) => x} // disable filtering on client side
       options={options}
+      freeSolo
+      loading={isLoading}
       getOptionLabel={(option) => option.label}
-      isOptionEqualToValue={
-        (option) => (selectedValue ? option.id === selectedValue.id : false)
-      }
+      isOptionEqualToValue={(option, value) => option.id === value.id}
       onInputChange={(event, newInputValue) => onInputChange(event, newInputValue)}
-      onChange={(event, newValue) => { setSelectedValue(newValue); onChange(event, newValue); }}
+      onChange={(event, newValue) => onChange(event, newValue)}
       renderOption={(props, option) => (
         <li {...props} key={option.id}>
           {option.label}
         </li>
       )}
       renderInput={(params) => (
-        <div className="search-input" ref={params.InputProps.ref}>
+        <div style={width ? { width } : {}} className="search-input" ref={params.InputProps.ref}>
           <input type="text" placeholder={placeholder} {...params.inputProps} />
           <div className="icon-container">
             {icon}
@@ -64,8 +64,10 @@ SearchBar.propTypes = {
   reqField: PropTypes.string.isRequired,
   formatData: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
+  width: PropTypes.string,
 };
 SearchBar.defaultProps = {
   placeholder: t('searchBar.placeholder'),
   icon: <SVG src={searchIcon} alt="search icon" className="search-icon" />,
+  width: null,
 };
