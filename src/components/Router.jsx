@@ -10,6 +10,9 @@ function Router() {
     <Routes>
       <Route element={<Layout />}>
         <Route exact path="/" element={<App />} />
+        <Route exact path="/achievements" element={<App />} />
+        <Route exact path="/profile" element={<App />} />
+        <Route exact path="/discover" element={<App />} />
       </Route>
 
       {/* redirect wrong URLs to root */}

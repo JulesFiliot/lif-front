@@ -2,7 +2,8 @@
   "translation": {
     "test": "bonjour le monde",
     "searchBar" : {
-      "placeholder": "Rechercher..."
+      "placeholder": "Rechercher...",
+      "loading": "Chargement..."
     },
     "navbar": {
       "profile": "Profil",

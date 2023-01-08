@@ -1,14 +1,61 @@
 @use "../variables.scss" as *;
 
 .navbar-container {
+  height: 60px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 5px;
+  padding: 10px;
+
+  .desktop-menu {
+    width: 500px;
+    display: none;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    .nav-item {
+      a {
+        text-decoration: none;
+        color: $sub-color1;
+
+        &:hover {
+          color: $main-color;
+        }
+      }
+    }
+  }
 
   .logo {
     width: 40px;
     height: 40px;
+
+    &.hide {
+      display: none;
+    }
+  }
+}
+
+@media (min-width: $sm-width) {
+  .search-input { width: 300px; }
+}
+
+@media (min-width: $lg-width) {
+  .navbar-container {
+    justify-content: center;
+    column-gap: 100px;
+
+    .desktop-menu {
+      display: flex;
+    }
+
+    .logo.hide {
+      display: inline;
+    }
+  }
+
+  .burder-menu-container {
+    display: none;
   }
 }

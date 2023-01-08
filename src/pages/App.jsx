@@ -1,9 +1,10 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import SearchBar from '../components/ui/SearchBar';
+import { useNavigate } from 'react-router-dom';
 
 function App() {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   return (
     <div
@@ -13,14 +14,7 @@ function App() {
       }}
     >
       <header className="App-header">
-        <SearchBar
-          reqUrl="http://openlibrary.org/search.json"
-          reqField="title"
-          formatData={(data) => data.docs.map((book) => ({ id: book.key, label: book.title }))}
-          onChange={(event, newValue) => {
-            console.log('fetched data:', newValue);
-          }}
-        />
+        <button type="button" onClick={() => navigate('/achievements?page=cat')}>TEST</button>
         <p>{t('test')}</p>
         <p>{t('test')}</p>
         <p>{t('test')}</p>

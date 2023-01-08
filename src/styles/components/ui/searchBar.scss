@@ -1,10 +1,6 @@
 /* stylelint-disable selector-class-pattern */
 @use "../../variables.scss" as *;
 
-.search-bar {
-  transition: width 0.3s ease-in-out;
-}
-
 .search-input {
   transition: width 0.3s ease-in-out;
   display: flex;
@@ -43,12 +39,10 @@
   }
 }
 
-.MuiAutocomplete-input {
-  background-color: $background-color-lighter;
-}
-
 .MuiAutocomplete-listbox,
-.MuiAutocomplete-noOptions {
+.MuiAutocomplete-noOptions,
+.MuiAutocomplete-loading,
+.MuiAutocomplete-input {
   background-color: $background-color-lighter;
 }
 

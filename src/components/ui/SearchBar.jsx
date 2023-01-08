@@ -37,6 +37,7 @@ export default function SearchBar({
       options={options}
       freeSolo
       loading={isLoading}
+      loadingText={<span style={{ color: '#60677c' }}>{t('searchBar.loading')}</span>}
       getOptionLabel={(option) => option.label}
       isOptionEqualToValue={(option, value) => option.id === value.id}
       onInputChange={(event, newInputValue) => onInputChange(event, newInputValue)}
@@ -48,7 +49,7 @@ export default function SearchBar({
       )}
       renderInput={(params) => (
         <div style={width ? { width } : {}} className="search-input" ref={params.InputProps.ref}>
-          <input type="text" placeholder={placeholder} {...params.inputProps} />
+          <input type="text" placeholder={placeholder || t('searchBar.placeholder')} {...params.inputProps} />
           <div className="icon-container">
             {icon}
           </div>

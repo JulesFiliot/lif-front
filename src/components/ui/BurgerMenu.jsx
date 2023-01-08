@@ -7,7 +7,7 @@ export default function BurgerMenu({ items }) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <>
+    <div className="burder-menu-container">
       <div
         className={`button-container${isOpen ? ' active' : ''}`}
         onClick={() => setIsOpen(!isOpen)}
@@ -26,11 +26,11 @@ export default function BurgerMenu({ items }) {
       <div className={`overlay${isOpen ? ' open' : ''}`}>
         <nav className="overlay-menu">
           {items.map((i) => (
-            <div key={`${i.name}-${i.link}-${i}`}><Link to={i.link}>{i.name}</Link></div>
+            <div key={`${i.name}-${i.link}-${i}`}><Link onClick={() => setIsOpen(false)} to={i.link}>{i.name}</Link></div>
           ))}
         </nav>
       </div>
-    </>
+    </div>
   );
 }
 BurgerMenu.propTypes = {
