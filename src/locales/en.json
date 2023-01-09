@@ -10,6 +10,13 @@
       "achievements": "Achievements",
       "discover": "Discover",
       "logout": "Logout"
+    },
+    "subCatAchievements": {
+      "horizontalMenu": {
+        "achievements": "Achievements",
+        "threads": "Threads",
+        "validations": "Validations"
+      }
     }
   }
 }

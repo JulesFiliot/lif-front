@@ -10,6 +10,13 @@
       "achievements": "Réussites",
       "discover": "Découvrir",
       "logout": "Déconnexion"
+    },
+    "subCatAchievements": {
+      "horizontalMenu": {
+        "achievements": "Réussites",
+        "threads": "Forum",
+        "validations": "Validations"
+      }
     }
   }
 }

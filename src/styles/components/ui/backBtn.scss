@@ -15,4 +15,12 @@
   &:hover {
     opacity: 0.5;
   }
+
+  &:focus {
+    opacity: 1;
+  }
+
+  &:focus:hover {
+    opacity: 0.5;
+  }
 }
