@@ -14,7 +14,7 @@ export default function BurgerMenu({ items }) {
         role="button"
         tabIndex={0}
         onKeyDown={(e) => {
-          if (e.type === 'keydown' && (e.key === 'Enter' || e.key === ' ')) {
+          if (e.type === 'keydown' && (e.key === 'Enter')) {
             setIsOpen(!isOpen);
           }
         }}

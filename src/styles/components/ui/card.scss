@@ -1,0 +1,57 @@
+@use "../../variables.scss" as *;
+
+.card-container {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+
+  .card-header {
+    height: 40px;
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: $background-color-lighter;
+    border-radius: 5px;
+    border: none;
+
+    .chevron-down {
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      transform: rotate(-90deg);
+      stroke-width: 0;
+      transition: transform 0.3s ease-in-out;
+
+      path {
+        fill: $sub-color1;
+      }
+    }
+  }
+
+  .card-dropdown {
+    max-height: 0;
+    padding: 10px;
+    overflow: hidden;
+    background-color: $background-color-lighter;
+    border-radius: 5px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    transition: max-height 0.3s ease-out;
+  }
+
+  &.open {
+    .card-header {
+      .chevron-down {
+        transform: rotate(90deg);
+      }
+    }
+
+    .card-dropdown {
+      max-height: 500px;
+      transition: max-height 0.3s ease-in;
+    }
+  }
+}
