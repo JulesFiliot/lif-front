@@ -9,19 +9,19 @@
 
 * {
   margin: 0;
-  font-family: $font-family, sans-serif; // custom
-  font-size: $font-size-regular; // custom
-  color: $sub-color1; // custom
+  font-family: $font-family, sans-serif; // ! custom
+  font-size: $font-size-regular; // ! custom
+  color: $sub-color1; // ! custom
 }
 
 a {
-  color: $main-color; // custom
+  color: $main-color; // ! custom
 }
 
 html,
 body {
   height: 100%;
-  background-color: $background-color; // custom
+  background-color: $background-color; // ! custom
 }
 
 body {
