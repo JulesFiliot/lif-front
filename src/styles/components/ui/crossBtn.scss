@@ -1,6 +1,6 @@
 @use "../../variables.scss" as *;
 
-.back-button {
+.cross-button {
   background-color: transparent;
   border: none;
   cursor: pointer;
@@ -9,7 +9,12 @@
     width: 25px;
     height: 25px;
     stroke: $sub-color1;
-    path { fill: $sub-color1; }
+    transform: rotate(45deg);
+
+    path {
+      stroke: $sub-color1;
+      stroke-width: 1.5px;
+    }
   }
 
   &:hover {

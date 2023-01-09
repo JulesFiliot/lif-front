@@ -1,11 +1,16 @@
 @use "../../variables.scss" as *;
 
+$card-width: 300px;
+
 .card-container {
   display: flex;
   flex-direction: column;
-  width: 300px;
+  align-items: center;
+  width: $card-width;
+  transition: width 0.3s ease-in-out;
 
   .card-header {
+    cursor: pointer;
     height: 40px;
     width: 100%;
     padding: 10px;
@@ -16,6 +21,8 @@
     background-color: $background-color-lighter;
     border-radius: 5px;
     border: none;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 
     .chevron-down {
       width: 20px;
@@ -29,17 +36,28 @@
         fill: $sub-color1;
       }
     }
+
+    .cross-button {
+      padding: 0;
+    }
+
+    .title {
+      text-align: center;
+      padding-left: 10px;
+      padding-right: 10px;
+      text-overflow: ellipsis;
+      overflow-x: hidden;
+      width: 100%;
+    }
   }
 
   .card-dropdown {
     max-height: 0;
-    padding: 10px;
+    padding: 0;
     overflow: hidden;
     background-color: $background-color-lighter;
     border-radius: 5px;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-    transition: max-height 0.3s ease-out;
+    transition: max-height 0.2s ease-out, padding 0.2s linear, text-align 0.2s linear;
   }
 
   &.open {
@@ -50,8 +68,26 @@
     }
 
     .card-dropdown {
+      text-align: justify;
+      padding: 10px;
       max-height: 500px;
       transition: max-height 0.3s ease-in;
     }
+  }
+}
+
+@media (min-width: $sm-width) {
+  $card-width: 400px;
+
+  .card-container {
+    width: $card-width;
+  }
+}
+
+@media (min-width: $lg-width) {
+  $card-width: 500px;
+
+  .card-container {
+    width: $card-width;
   }
 }

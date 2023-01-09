@@ -3,25 +3,36 @@ import PropTypes from 'prop-types';
 import '../../styles/components/ui/card.scss';
 
 export default function Card({
-  title, leftIcon, rightIcon, hasDropdown, dropdownText,
+  title, leftIcon, rightIcon, hasDropdown, dropdownText, width, onClick,
 }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   return (
-    <div className={`card-container${isDropdownOpen ? ' open' : ''}`}>
+    <div
+      style={width ? { width } : {}}
+      className={`card-container${isDropdownOpen ? ' open' : ''}`}
+    >
       <div
         className="card-header"
-        onClick={hasDropdown ? () => setIsDropdownOpen(!isDropdownOpen) : null}
+        onClick={hasDropdown ? () => {
+          setIsDropdownOpen(!isDropdownOpen);
+          onClick();
+        } : onClick}
         onKeyDown={hasDropdown ? (e) => {
           if (e.type === 'keydown' && (e.key === 'Enter')) {
             setIsDropdownOpen(!isDropdownOpen);
+            onClick();
           }
-        } : null}
+        } : (e) => {
+          if (e.type === 'keydown' && (e.key === 'Enter')) {
+            onClick();
+          }
+        }}
         role="button"
         tabIndex={0}
       >
         {leftIcon}
-        {title}
+        {title && <span className="title">{title}</span>}
         {rightIcon}
       </div>
       {hasDropdown && (
@@ -35,7 +46,9 @@ Card.propTypes = {
   leftIcon: PropTypes.element,
   rightIcon: PropTypes.element,
   hasDropdown: PropTypes.bool,
-  dropdownText: PropTypes.string,
+  dropdownText: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+  width: PropTypes.string,
+  onClick: PropTypes.func,
 };
 Card.defaultProps = {
   title: '',
@@ -43,4 +56,6 @@ Card.defaultProps = {
   rightIcon: null,
   hasDropdown: false,
   dropdownText: '',
+  width: null,
+  onClick: null,
 };
