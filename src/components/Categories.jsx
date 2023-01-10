@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { t } from 'i18next';
+import { toast } from 'react-hot-toast';
 import Card from './ui/Card';
 import achievementPages from '../constants/achievementPages';
 import Title from './ui/Title';
 import { SET_CATEGORY } from '../core/reducer/app/appActions';
+import { getCategories } from '../services/categories';
 import '../styles/components/categories.scss';
 
 export default function Categories() {
@@ -14,13 +16,12 @@ export default function Categories() {
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
-    const data = {
-      lalala: 'Category 1',
-      lololo: 'Category 2',
-      hehehe: 'Category 3',
-    };
-    const dataArray = Object.entries(data).map(([key, value]) => ({ [key]: value }));
-    setCategories(dataArray);
+    getCategories()
+      .then((data) => {
+        const dataArray = Object.entries(data).map(([key, value]) => ({ [key]: value }));
+        setCategories(dataArray);
+      })
+      .catch((err) => toast.error(err.message));
   }, []);
 
   return (

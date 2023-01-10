@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { PersistGate } from 'redux-persist/integration/react';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
 import reportWebVitals from './reportWebVitals';
 import Router from './components/Router';
 import { store, persistor } from './core/store';
@@ -17,6 +18,7 @@ root.render(
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <BrowserRouter>
+          <Toaster />
           <Router />
         </BrowserRouter>
       </PersistGate>

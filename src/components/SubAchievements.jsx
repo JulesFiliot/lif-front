@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import SVG from 'react-inlinesvg';
 import { t } from 'i18next';
+import { toast } from 'react-hot-toast';
 import Card from './ui/Card';
 import CrossBtn from './ui/CrossBtn';
 import chevronLeft from '../assets/chevron_left.svg';
@@ -11,6 +12,7 @@ import achievementPages from '../constants/achievementPages';
 import Title from './ui/Title';
 import subAchievementsMenuItems from '../constants/subAchievementsMenuItems';
 import '../styles/components/subAchievements.scss';
+import { getSubsFormCategory } from '../services/achievements';
 
 export default function SubAchievements() {
   const currentSubId = useSelector((state) => state.appReducer.sub);
@@ -46,15 +48,18 @@ export default function SubAchievements() {
   };
 
   useEffect(() => {
-    // todo fetch achievements with sub Id
-    const data = {
-      papapa: 'Sub 1',
-      popopo: 'Sub 2',
-      pepepe: 'Sub 3',
-    };
-    const dataArray = Object.entries(data).map(([key, value]) => ({ [key]: value }));
-    setAchievements(dataArray);
-    console.log({ achievements });
+    // todo add real user id
+    if (currentSubId) {
+      getSubsFormCategory(currentSubId, 1)
+        .then((data) => {
+          const dataArray = Object.entries(data).map(([key, value]) => ({
+            id: key,
+            ...value,
+          }));
+          setAchievements(dataArray);
+        })
+        .catch((err) => toast.error(err.message));
+    }
   }, [currentSubId]);
 
   return (
@@ -67,21 +72,23 @@ export default function SubAchievements() {
       <div style={{ margin: '5px 0' }} />
       {currentMenu === subAchievementsMenuItems.achievements && (
       <div className="cards-container">
-        <Card
-          title="Solar Master: Build a solar panel"
-          onClick={() => console.log('NICE')}
-          leftIcon={<SVG src={chevronLeft} className="chevron-down" alt="chevron left" />}
-          rightIcon={(
-            <CrossBtn onClick={(e) => {
-              e.stopPropagation();
-              console.log('HEHEHE');
-            }}
-            />
+        {achievements.map((a) => (
+          <Card
+            key={a.id}
+            title={a.name}
+            leftIcon={<SVG src={chevronLeft} className="chevron-down" alt="chevron left" />}
+            rightIcon={(
+              <CrossBtn onClick={(e) => {
+                e.stopPropagation();
+                console.log(`TODO add ${a.id}`);
+              }}
+              />
         )}
-          noHover
-          hasDropdown
-          dropdownText="Dropdown text very long with a lot of text talking about nothing really interesting. Haha I hope I'll be on a new line or I'll kill myself hehehe xxx"
-        />
+            noHover
+            hasDropdown
+            dropdownText={`${a.name}: ${a.desc}`}
+          />
+        ))}
       </div>
       )}
       {currentMenu === subAchievementsMenuItems.threads && ('TODO Threads here')}
