@@ -15,7 +15,8 @@
       "title": "Catégories"
     },
     "subs": {
-      "title": "Subs"
+      "title": "Subs",
+      "singular_title": "Sub"
     },
     "subsAchievements": {
       "title": "Réussites",

@@ -15,9 +15,11 @@
       "title": "Categories"
     },
     "subs": {
-      "title": "Subs"
+      "title": "Subs",
+      "singular_title": "Sub"
     },
     "subsAchievements": {
+      "title": "Achievements",	
       "horizontalMenu": {
         "achievements": "Achievements",
         "threads": "Threads",
