@@ -49,6 +49,18 @@ $card-width: 300px;
       overflow-x: hidden;
       width: 100%;
     }
+
+    &:hover {
+      &.clickable {
+        opacity: 0.5;
+      }
+    }
+
+    &:focus {
+      &.clickable {
+        opacity: 1;
+      }
+    }
   }
 
   .card-dropdown {

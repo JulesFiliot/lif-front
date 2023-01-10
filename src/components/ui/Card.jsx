@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import '../../styles/components/ui/card.scss';
 
 export default function Card({
-  title, leftIcon, rightIcon, hasDropdown, dropdownText, width, onClick,
+  title, leftIcon, rightIcon, hasDropdown, dropdownText, width, onClick, noHover,
 }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -13,7 +13,7 @@ export default function Card({
       className={`card-container${isDropdownOpen ? ' open' : ''}`}
     >
       <div
-        className="card-header"
+        className={`card-header${onClick && !noHover ? ' clickable' : ''}`}
         onClick={hasDropdown ? () => {
           setIsDropdownOpen(!isDropdownOpen);
           onClick();
@@ -49,6 +49,7 @@ Card.propTypes = {
   dropdownText: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   width: PropTypes.string,
   onClick: PropTypes.func,
+  noHover: PropTypes.bool,
 };
 Card.defaultProps = {
   title: '',
@@ -58,4 +59,5 @@ Card.defaultProps = {
   dropdownText: '',
   width: null,
   onClick: null,
+  noHover: false,
 };

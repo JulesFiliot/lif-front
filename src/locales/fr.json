@@ -11,7 +11,14 @@
       "discover": "Découvrir",
       "logout": "Déconnexion"
     },
-    "subCatAchievements": {
+    "categories": {
+      "title": "Catégories"
+    },
+    "subs": {
+      "title": "Subs"
+    },
+    "subsAchievements": {
+      "title": "Réussites",
       "horizontalMenu": {
         "achievements": "Réussites",
         "threads": "Forum",

@@ -11,7 +11,13 @@
       "discover": "Discover",
       "logout": "Logout"
     },
-    "subCatAchievements": {
+    "categories": {
+      "title": "Categories"
+    },
+    "subs": {
+      "title": "Subs"
+    },
+    "subsAchievements": {
       "horizontalMenu": {
         "achievements": "Achievements",
         "threads": "Threads",

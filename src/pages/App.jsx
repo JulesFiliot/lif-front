@@ -20,19 +20,19 @@ function App() {
     {
       id: 1,
       url_id: subAchievementsMenuItems.achievements,
-      label: t('subCatAchievements.horizontalMenu.achievements'),
+      label: t('subsAchievements.horizontalMenu.achievements'),
       function: () => navigate(`/achievements?page=${achievementPages.subCategoriesAchievements}&menu=${subAchievementsMenuItems.achievements}`),
     },
     {
       id: 2,
       url_id: subAchievementsMenuItems.threads,
-      label: t('subCatAchievements.horizontalMenu.threads'),
+      label: t('subsAchievements.horizontalMenu.threads'),
       function: () => navigate(`/achievements?page=${achievementPages.subCategoriesAchievements}&menu=${subAchievementsMenuItems.threads}`),
     },
     {
       id: 3,
       url_id: subAchievementsMenuItems.validation,
-      label: t('subCatAchievements.horizontalMenu.validations'),
+      label: t('subsAchievements.horizontalMenu.validations'),
       function: () => navigate(`/achievements?page=${achievementPages.subCategoriesAchievements}&menu=${subAchievementsMenuItems.validation}`),
     },
   ];
@@ -66,6 +66,7 @@ function App() {
           }}
           />
         )}
+        noHover
         hasDropdown
         dropdownText="Dropdown text very long with a lot of text talking about nothing really interesting. Haha I hope I'll be on a new line or I'll kill myself hehehe xxx"
       />
