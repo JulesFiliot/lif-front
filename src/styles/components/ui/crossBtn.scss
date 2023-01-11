@@ -1,10 +1,6 @@
 @use "../../variables.scss" as *;
 
 .cross-button {
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-
   svg {
     width: 25px;
     height: 25px;
@@ -15,9 +11,5 @@
       stroke: $sub-color1;
       stroke-width: 1.5px;
     }
-  }
-
-  &:hover {
-    opacity: 0.5;
   }
 }

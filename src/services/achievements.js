@@ -9,3 +9,9 @@ export const getSubsFormCategory = (subId, userId) => new Promise((resolve, reje
     .then((response) => resolve(response.data))
     .catch((err) => reject(err));
 });
+
+export const claimAchievement = (payload) => new Promise((resolve, reject) => {
+  axios.post(`${AppConfig.baseUrlApi}:${port}/user-achievement`, payload)
+    .then((response) => resolve(response.data))
+    .catch((err) => reject(err));
+});

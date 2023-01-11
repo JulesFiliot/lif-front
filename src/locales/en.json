@@ -24,6 +24,11 @@
         "achievements": "Achievements",
         "threads": "Threads",
         "validations": "Validations"
+      },
+      "actionsMenu": {
+        "add": "Add",
+        "quickAdd": "Quick add",
+        "remove": "Remove"
       }
     }
   }

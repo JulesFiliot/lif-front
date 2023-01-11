@@ -1,0 +1,9 @@
+/* stylelint-disable selector-class-pattern */
+@use "../../variables.scss" as *;
+
+.popover-container {
+  .MuiPopover-paper {
+    color: $sub-color1;
+    background-color: $background-color-lighter;
+  }
+}

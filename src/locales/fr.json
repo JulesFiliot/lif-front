@@ -24,6 +24,11 @@
         "achievements": "Réussites",
         "threads": "Forum",
         "validations": "Validations"
+      },
+      "actionsMenu": {
+        "add": "Ajouter",
+        "quickAdd": "Ajout rapide",
+        "remove": "Supprimer"
       }
     }
   }

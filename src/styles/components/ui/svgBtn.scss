@@ -1,0 +1,19 @@
+@use "../../variables.scss" as *;
+
+.svg-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.5;
+  }
+
+  &:focus {
+    opacity: 1;
+  }
+
+  &:focus:hover {
+    opacity: 0.5;
+  }
+}

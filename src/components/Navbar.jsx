@@ -1,13 +1,15 @@
 import React from 'react';
 import { t } from 'i18next';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import BackBtn from './ui/BackBtn';
+import SvgBtn from './ui/SvgBtn';
 import BurgerMenu from './ui/BurgerMenu';
 import SearchBar from './ui/SearchBar';
 import achievementPages from '../constants/achievementPages';
 import subAchievementsMenuItems from '../constants/subAchievementsMenuItems';
+import chevronLeft from '../assets/chevron_left.svg';
 import lifLogo from '../assets/lif_logo.png';
 import '../styles/components/navbar.scss';
+import '../styles/components/ui/backBtn.scss';
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -43,7 +45,7 @@ export default function Navbar() {
 
   return (
     <div className="navbar-container">
-      <BackBtn onClick={() => navigate(-1)} />
+      <SvgBtn svgSource={chevronLeft} customClass="back-button" onClick={() => navigate(-1)} />
       <div className="desktop-menu">
         {navItems.map((item) => (
           <div key={`${item.name}-${item.link}`} className="nav-item"><Link to={item.link}>{item.name}</Link></div>

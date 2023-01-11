@@ -10,5 +10,89 @@
     flex-direction: column;
     align-items: center;
     row-gap: 15px;
+
+    .spinner {
+      width: 20px;
+      height: 20px;
+      border-width: 3px;
+    }
+
+    .check-icon {
+      margin-right: 5px;
+      fill: $main-color;
+    }
+
+    .dot-menu-button {
+      padding-right: 0;
+    }
+  }
+}
+
+.popover-container {
+  /* stylelint-disable-next-line selector-class-pattern */
+  .MuiPopover-paper {
+    height: fit-content;
+    padding: 8px 6px;
+
+    .actions-container {
+      height: fit-content;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      row-gap: 15px;
+
+      .action-item {
+        button {
+          cursor: pointer;
+          width: 100%;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: space-between;
+          background-color: $background-color-lighter;
+          border: none;
+
+          svg {
+            margin-left: 10px;
+          }
+
+          .cross-icon {
+            width: 25px;
+            height: 25px;
+            stroke: $sub-color1;
+            transform: rotate(45deg);
+
+            path {
+              stroke: $sub-color1;
+              stroke-width: 1.5px;
+            }
+
+            &.primary {
+              stroke: $main-color;
+
+              path {
+                stroke: $main-color;
+              }
+            }
+          }
+
+          .bin-icon {
+            transform: none;
+            fill: $sub-color1;
+            width: 25px;
+            height: 25px;
+          }
+
+          &.primary {
+            color: $main-color;
+          }
+
+          &:hover {
+            opacity: 0.5;
+          }
+        }
+      }
+    }
   }
 }
