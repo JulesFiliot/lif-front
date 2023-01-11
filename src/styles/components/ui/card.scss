@@ -22,6 +22,7 @@ $card-width: 300px;
     border-radius: 5px;
     border: none;
     text-overflow: ellipsis;
+    text-transform: capitalize;
     white-space: nowrap;
 
     .chevron-down {
@@ -35,6 +36,12 @@ $card-width: 300px;
       path {
         fill: $sub-color1;
       }
+    }
+
+    .check-icon {
+      width: 20px;
+      height: 20px;
+      fill: $sub-color1;
     }
 
     .cross-button {
@@ -64,6 +71,8 @@ $card-width: 300px;
   }
 
   .card-dropdown {
+    width: 100%;
+    margin-top: 0;
     max-height: 0;
     padding: 0;
     overflow: hidden;
@@ -82,6 +91,7 @@ $card-width: 300px;
     .card-dropdown {
       text-align: justify;
       padding: 10px;
+      margin-top: 1px;
       max-height: 500px;
       transition: max-height 0.3s ease-in;
     }

@@ -58,6 +58,6 @@ Card.defaultProps = {
   hasDropdown: false,
   dropdownText: '',
   width: null,
-  onClick: null,
+  onClick: () => null,
   noHover: false,
 };

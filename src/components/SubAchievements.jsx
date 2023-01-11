@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
-import SVG from 'react-inlinesvg';
+// import SVG from 'react-inlinesvg';
 import { t } from 'i18next';
 import { toast } from 'react-hot-toast';
 import Card from './ui/Card';
 import CrossBtn from './ui/CrossBtn';
-import chevronLeft from '../assets/chevron_left.svg';
+// import chevronLeft from '../assets/chevron_left.svg';
+// import checkIcon from '../assets/check.svg';
 import HorizontalMenu from './ui/HorizontalMenu';
 import achievementPages from '../constants/achievementPages';
 import Title from './ui/Title';
 import subAchievementsMenuItems from '../constants/subAchievementsMenuItems';
 import '../styles/components/subAchievements.scss';
 import { getSubsFormCategory } from '../services/achievements';
+import Loader from './ui/Loader';
 
 export default function SubAchievements() {
   const currentSubId = useSelector((state) => state.appReducer.sub);
@@ -76,7 +78,9 @@ export default function SubAchievements() {
           <Card
             key={a.id}
             title={a.name}
-            leftIcon={<SVG src={chevronLeft} className="chevron-down" alt="chevron left" />}
+            // leftIcon={<SVG src={chevronLeft} className="chevron-down" alt="chevron left" />}
+            // leftIcon={<SVG src={checkIcon} className="check-icon" alt="check icon" />}
+            leftIcon={<Loader />}
             rightIcon={(
               <CrossBtn onClick={(e) => {
                 e.stopPropagation();
