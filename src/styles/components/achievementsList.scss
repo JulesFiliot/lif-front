@@ -1,0 +1,25 @@
+@use "../variables.scss"  as *;
+
+.achievements-list-container {
+  .cards-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 15px;
+
+    .spinner {
+      width: 20px;
+      height: 20px;
+      border-width: 3px;
+    }
+
+    .check-icon {
+      margin-right: 5px;
+      fill: $main-color;
+    }
+
+    .dot-menu-button {
+      padding-right: 0;
+    }
+  }
+}
