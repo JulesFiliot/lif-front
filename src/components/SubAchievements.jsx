@@ -14,7 +14,7 @@ import Title from './ui/Title';
 import Loader from './ui/Loader';
 
 import subAchievementsMenuItems from '../constants/subAchievementsMenuItems';
-import { claimAchievement, getSubsFormCategory } from '../services/achievements';
+import { claimAchievement, getSubsFormCategory, removeAchievement } from '../services/achievements';
 import chevronLeft from '../assets/chevron_left.svg';
 import checkIcon from '../assets/check.svg';
 import dotMenu from '../assets/dot_menu.svg';
@@ -62,6 +62,52 @@ export default function SubAchievements() {
     return menuId;
   };
 
+  const addAchievement = (achievementToAdd) => {
+    setActionPopoverData({ anchorEl: null, open: false });
+    setLoaders({ ...loaders, [achievementToAdd?.id]: true });
+    claimAchievement({
+      user_achievement: {
+        user_id: '1',
+        achievement_id: achievementToAdd?.id,
+      },
+    })
+      .then((data) => {
+        // todo check that it works with data (data.data ?)
+        const index = achievements
+          .findIndex((el) => el.id === achievementToAdd?.id);
+        if (index) {
+          const newAchievements = [...achievements];
+          newAchievements[index] = data;
+          setAchievements(newAchievements);
+        }
+      })
+      .catch((err) => toast.error(err.message))
+      .finally(() => setLoaders({ ...loaders, [achievementToAdd?.id]: false }));
+  };
+
+  const deleteAchievement = (achievementToDelete) => {
+    setActionPopoverData({ anchorEl: null, open: false });
+    setLoaders({ ...loaders, [achievementToDelete?.id]: true });
+    removeAchievement({
+      user_achievement: {
+        user_id: '1',
+        user_achievement_id: achievementToDelete.user_achievement_id,
+        subcat_id: currentSubId,
+      },
+    })
+      .then(() => {
+        const index = achievements
+          .findIndex((el) => el.id === achievementToDelete?.id);
+        if (index) {
+          const newAchievements = [...achievements];
+          newAchievements[index].user_achievement_id = null;
+          setAchievements(newAchievements);
+        }
+      })
+      .catch((err) => toast.error(err.message))
+      .finally(() => setLoaders({ ...loaders, [achievementToDelete?.id]: false }));
+  };
+
   const actionPopover = () => {
     const currentAchievement = actionPopoverData.achievement;
     return (
@@ -69,7 +115,7 @@ export default function SubAchievements() {
         className="popover-container"
         open={actionPopoverData.open}
         anchorEl={actionPopoverData.anchorEl}
-        onClose={() => setActionPopoverData({ anchorEl: null, open: false })}
+        onClose={() => setActionPopoverData({ anchorEl: null, open: false, achievement: {} })}
         onClick={(e) => e.stopPropagation()}
         anchorOrigin={{
           vertical: 'top',
@@ -81,33 +127,13 @@ export default function SubAchievements() {
         }}
       >
         <div className="actions-container">
-          {!currentAchievement?.owned ? (
+          {!currentAchievement?.user_achievement_id ? (
             <>
               <div className="action-item">
                 <button
                   type="button"
                   className="primary"
-                  onClick={() => {
-                    setActionPopoverData({ anchorEl: null, open: false });
-                    setLoaders({ ...loaders, [currentAchievement?.id]: true });
-                    claimAchievement({
-                      user_achievement: {
-                        user_id: '1',
-                        achievement_id: currentAchievement?.id,
-                      },
-                    })
-                      .then(() => {
-                        const index = achievements
-                          .findIndex((el) => el.id === currentAchievement?.id);
-                        if (index) {
-                          const newAchievements = [...achievements];
-                          newAchievements[index].owned = true;
-                          setAchievements(newAchievements);
-                        }
-                      })
-                      .catch((err) => toast.error(err.message))
-                      .finally(() => setLoaders({ ...loaders, [currentAchievement?.id]: false }));
-                  }}
+                  onClick={() => addAchievement(currentAchievement)}
                 >
                   {t('subsAchievements.actionsMenu.quickAdd')}
                   <SVG src={crossIcon} className="cross-icon primary" />
@@ -122,7 +148,10 @@ export default function SubAchievements() {
             </>
           ) : (
             <div className="action-item">
-              <button type="button">
+              <button
+                type="button"
+                onClick={() => deleteAchievement(currentAchievement)}
+              >
                 {t('subsAchievements.actionsMenu.remove')}
                 <SVG src={binIcon} className="bin-icon" />
               </button>
@@ -166,8 +195,12 @@ export default function SubAchievements() {
             leftIcon={<SVG src={chevronLeft} className="chevron-down" alt="chevron left" />}
             rightIcon={!loaders[a.id] ? (
               <>
-                {a.owned && <SVG src={checkIcon} className="check-icon" alt="check icon" />}
-                {actionPopover()}
+                {a.user_achievement_id && <SVG src={checkIcon} className="check-icon" alt="check icon" />}
+                {
+                  actionPopoverData.achievement.id === a.id
+                  && actionPopoverData.open
+                  && actionPopover()
+                }
                 <SvgBtn
                   svgSource={dotMenu}
                   customClass="dot-menu-button"
