@@ -9,7 +9,7 @@ import Title from './ui/Title';
 import { SET_SUB } from '../core/reducer/app/appActions';
 import '../styles/components/subs.scss';
 import subAchievementsMenuItems from '../constants/subAchievementsMenuItems';
-import { getSubsFormCategory } from '../services/subs';
+import { getSubsFormCategory } from '../api/subs';
 
 export default function Subs() {
   const currentCatId = useSelector((state) => state.appReducer.category);

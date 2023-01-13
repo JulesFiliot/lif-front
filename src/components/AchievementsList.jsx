@@ -8,7 +8,7 @@ import Card from './ui/Card';
 import Loader from './ui/Loader';
 import SvgBtn from './ui/SvgBtn';
 
-import { claimAchievement, removeAchievement } from '../services/achievements';
+import { claimAchievement, removeAchievement } from '../api/achievements';
 import chevronLeft from '../assets/chevron_left.svg';
 import checkIcon from '../assets/check.svg';
 import dotMenu from '../assets/dot_menu.svg';

@@ -3,18 +3,22 @@
     "errors": {
       "minLength": "The field must be at least {{minLimit}} characters long",
       "maxLength": "The field must be at most {{maxLimit}} characters long",
-      "required": "The field is required"
+      "required": "The field is required",
+      "wrongCredentials": "Wrong credentials"
     },
     "login": {
       "title": "Login",
       "email": "Email",
-      "password": "Password"
+      "password": "Password",
+      "createAccount": "Create an account"
     },
     "register": {
       "title": "Register",
       "email": "Email",
       "password": "Password",
-      "pseudo": "Pseudo"
+      "pseudo": "Pseudo",
+      "backToLogin": "Back to login",
+      "accountCreated": "Your account has been created!"
     },
     "searchBar" : {
       "placeholder": "Search...",

@@ -7,7 +7,7 @@ import Card from './ui/Card';
 import achievementPages from '../constants/achievementPages';
 import Title from './ui/Title';
 import { SET_CATEGORY } from '../core/reducer/app/appActions';
-import { getCategories } from '../services/categories';
+import { getCategories } from '../api/categories';
 import '../styles/components/categories.scss';
 
 export default function Categories() {

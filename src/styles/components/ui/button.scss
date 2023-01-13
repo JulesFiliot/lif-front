@@ -18,6 +18,19 @@
     border-color: $sub-color2;
   }
 
+  &.empty {
+    background-color: transparent;
+  }
+
+  &.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+
+    &.no-styling-on-disabled {
+      opacity: 1;
+    }
+  }
+
   &:hover {
     opacity: 0.5;
   }

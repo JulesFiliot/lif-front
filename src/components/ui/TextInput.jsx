@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import '../../styles/components/ui/textInput.scss';
 
 export default function TextInput({
-  value, placeholder, onChange, style, type, error,
+  value, placeholder, onChange, style, type, error, disabled,
 }) {
   const [inputValue, setInputValue] = useState('');
 
@@ -18,14 +18,14 @@ export default function TextInput({
   };
 
   return (
-    <div className="text-input-container">
+    <div style={style} className="text-input-container">
       <input
-        style={style}
-        className="text-input"
+        className={`text-input${disabled ? ' disabled' : ''}`}
         type={type}
         value={value || inputValue}
         placeholder={placeholder}
         onChange={handleChange}
+        disabled={disabled}
       />
       {error && <div className="error-message">{error}</div>}
     </div>
@@ -38,6 +38,7 @@ TextInput.propTypes = {
   style: PropTypes.shape({}),
   type: PropTypes.string,
   error: PropTypes.string,
+  disabled: PropTypes.bool,
 };
 TextInput.defaultProps = {
   value: '',
@@ -46,4 +47,5 @@ TextInput.defaultProps = {
   style: {},
   type: 'text',
   error: '',
+  disabled: false,
 };

@@ -4,30 +4,40 @@ import PropTypes from 'prop-types';
 import '../../styles/components/ui/button.scss';
 
 export default function Button({
-  text, clickAction, style, primary, secondary,
+  content, clickAction, style, primary, secondary, type, disabled, noStylingOnDisabled, empty,
 }) {
   return (
     <button
-      type="button"
+      // eslint-disable-next-line react/button-has-type
+      type={type}
       style={style}
-      className={`button-classic${primary ? ' primary' : ''}${secondary ? ' secondary' : ''}`}
+      className={`button-classic${primary ? ' primary' : ''}${secondary ? ' secondary' : ''}${disabled ? ' disabled' : ''}${noStylingOnDisabled ? ' no-styling-on-disabled' : ''}${empty ? ' empty' : ''}`}
       onClick={clickAction}
+      disabled={disabled}
     >
-      {text}
+      {content}
     </button>
   );
 }
 Button.propTypes = {
-  text: PropTypes.string,
+  content: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   clickAction: PropTypes.func,
   style: PropTypes.shape({}),
   primary: PropTypes.bool,
   secondary: PropTypes.bool,
+  type: PropTypes.string,
+  disabled: PropTypes.bool,
+  noStylingOnDisabled: PropTypes.bool,
+  empty: PropTypes.bool,
 };
 Button.defaultProps = {
-  text: '',
+  content: '',
   clickAction: () => {},
   style: {},
   primary: false,
   secondary: false,
+  type: 'button',
+  disabled: false,
+  noStylingOnDisabled: false,
+  empty: false,
 };

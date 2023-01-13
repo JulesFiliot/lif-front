@@ -3,18 +3,22 @@
     "errors": {
       "minLength": "Le champ doit contenir au moins {{minLimit}} caractères",
       "maxLength": "Le champ doit contenir au plus {{maxLimit}} caractères",
-      "required": "Ce champ est requis"
+      "required": "Ce champ est requis",
+      "wrongCredentials": "Email ou mot de passe incorrect"
     },
     "login": {
       "title": "Connexion",
       "email": "Email",
-      "password": "Mot de passe"
+      "password": "Mot de passe",
+      "createAccount": "Créer un compte"
     },
     "register": {
       "title": "Inscription",
       "email": "Email",
       "password": "Mot de passe",
-      "pseudo": "Pseudo"
+      "pseudo": "Pseudo",
+      "backToLogin": "Retour à la connexion",
+      "accountCreated": "Votre compte a bien été créé !"
     },
     "searchBar" : {
       "placeholder": "Rechercher...",

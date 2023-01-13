@@ -3,13 +3,19 @@
 .text-input-container {
   display: flex;
   flex-direction: column;
+  width: 250px;
 
   .text-input {
-    width: 250px;
+    width: 100%;
     background-color: $background-color-lighter;
     border: none;
     border-radius: 5px;
     padding: 5px;
+
+    &.disabled {
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
 
     &:focus-visible {
       outline: none;
@@ -17,7 +23,9 @@
   }
 
   .error-message {
+    width: 100%;
     color: $error-color;
     font-size: $font-size-small;
+    word-break: break-word;
   }
 }

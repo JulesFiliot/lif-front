@@ -14,7 +14,7 @@ import Title from './ui/Title';
 // import Loader from './ui/Loader';
 
 import subAchievementsMenuItems from '../constants/subAchievementsMenuItems';
-import { /* claimAchievement,  */getSubsFormCategory/* , removeAchievement */ } from '../services/achievements';
+import { /* claimAchievement,  */getSubsFormCategory/* , removeAchievement */ } from '../api/achievements';
 // import chevronLeft from '../assets/chevron_left.svg';
 // import checkIcon from '../assets/check.svg';
 // import dotMenu from '../assets/dot_menu.svg';
