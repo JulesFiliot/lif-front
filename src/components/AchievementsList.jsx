@@ -27,7 +27,7 @@ export default function AchievementsList({ achievementsDefault, currentSubId }) 
   );
 
   const addAchievement = (achievementToAdd) => {
-    setActionPopoverData({ anchorEl: null, open: false });
+    setActionPopoverData({ anchorEl: null, open: false, achievement: {} });
     setLoaders({ ...loaders, [achievementToAdd?.id]: true });
     claimAchievement({
       user_achievement: {
@@ -39,7 +39,7 @@ export default function AchievementsList({ achievementsDefault, currentSubId }) 
         // todo check that it works with data (data.data ?)
         const index = achievements
           .findIndex((el) => el.id === achievementToAdd?.id);
-        if (index) {
+        if (index + 1) {
           const newAchievements = [...achievements];
           newAchievements[index] = data;
           setAchievements(newAchievements);
@@ -50,7 +50,7 @@ export default function AchievementsList({ achievementsDefault, currentSubId }) 
   };
 
   const deleteAchievement = (achievementToDelete) => {
-    setActionPopoverData({ anchorEl: null, open: false });
+    setActionPopoverData({ anchorEl: null, open: false, achievement: {} });
     setLoaders({ ...loaders, [achievementToDelete?.id]: true });
     removeAchievement({
       user_achievement: {
@@ -62,9 +62,11 @@ export default function AchievementsList({ achievementsDefault, currentSubId }) 
       .then(() => {
         const index = achievements
           .findIndex((el) => el.id === achievementToDelete?.id);
-        if (index) {
+        console.log({ index }, achievementToDelete);
+        if (index + 1) {
           const newAchievements = [...achievements];
-          newAchievements[index].user_achievement_id = null;
+          delete newAchievements[index].user_achievement_id;
+          console.log('the new achievements', newAchievements);
           setAchievements(newAchievements);
         }
       })
@@ -135,6 +137,13 @@ export default function AchievementsList({ achievementsDefault, currentSubId }) 
     setLoaders(dataArray.reduce((acc, v) => ({ ...acc, [v.id]: false }), {}));
   }, [achievementsDefault]);
 
+  useEffect(() => {
+    console.log({ achievements });
+  }, [achievements]);
+  useEffect(() => {
+    console.log({ actionPopoverData });
+  }, [actionPopoverData]);
+
   return (
     <div className="achievements-list-container">
       <div className="cards-container">
@@ -147,7 +156,7 @@ export default function AchievementsList({ achievementsDefault, currentSubId }) 
               <>
                 {a.user_achievement_id && <SVG src={checkIcon} className="check-icon" alt="check icon" />}
                 {
-                  actionPopoverData.achievement.id === a.id
+                  actionPopoverData?.achievement?.id === a.id
                   && actionPopoverData.open
                   && actionPopover()
                 }

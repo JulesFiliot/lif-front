@@ -70,6 +70,10 @@ h6 {
   isolation: isolate;
 }
 
+#root {
+  height: 100%;
+}
+
 // better scrollbar
 ::-webkit-scrollbar {
   width: 12px;

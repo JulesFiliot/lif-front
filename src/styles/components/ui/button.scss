@@ -1,0 +1,24 @@
+@use "../../variables.scss" as *;
+
+.button-classic {
+  width: 250px;
+  background-color: $background-color-lighter;
+  border: 1px solid $background-color-lighter;
+  border-radius: 5px;
+  padding: 5px;
+  cursor: pointer;
+
+  &.primary {
+    background-color: $main-color-darker;
+    border-color: $main-color-darker;
+  }
+
+  &.secondary {
+    background-color: $sub-color2;
+    border-color: $sub-color2;
+  }
+
+  &:hover {
+    opacity: 0.5;
+  }
+}

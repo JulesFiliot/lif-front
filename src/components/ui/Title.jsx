@@ -10,7 +10,7 @@ export default function Title({ text, primary, secondary }) {
       >
         {text}
       </h1>
-      <div className="underline" />
+      {/* <div className="underline" /> */}
     </div>
   );
 }

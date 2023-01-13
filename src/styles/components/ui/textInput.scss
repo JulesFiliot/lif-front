@@ -1,0 +1,23 @@
+@use "../../variables.scss" as *;
+
+.text-input-container {
+  display: flex;
+  flex-direction: column;
+
+  .text-input {
+    width: 250px;
+    background-color: $background-color-lighter;
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+
+    &:focus-visible {
+      outline: none;
+    }
+  }
+
+  .error-message {
+    color: $error-color;
+    font-size: $font-size-small;
+  }
+}

@@ -21,8 +21,8 @@ export default function Navbar() {
   const navItems = [
     { name: t('navbar.profile'), link: '/profile' },
     { name: t('navbar.achievements'), link: `/achievements?page=${achievementPages.categories}` },
-    { name: t('navbar.discover'), link: '/achievements?page=subAchievements&menu=achievements' },
-    { name: t('navbar.logout'), link: '/achievements?page=yo' },
+    { name: t('navbar.discover'), link: '/discover' },
+    { name: t('navbar.logout'), link: '/logout' },
   ];
 
   const hasSearchBar = () => {

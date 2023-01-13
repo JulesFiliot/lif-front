@@ -1,6 +1,21 @@
 {
   "translation": {
-    "test": "bonjour le monde",
+    "errors": {
+      "minLength": "Le champ doit contenir au moins {{minLimit}} caractères",
+      "maxLength": "Le champ doit contenir au plus {{maxLimit}} caractères",
+      "required": "Ce champ est requis"
+    },
+    "login": {
+      "title": "Connexion",
+      "email": "Email",
+      "password": "Mot de passe"
+    },
+    "register": {
+      "title": "Inscription",
+      "email": "Email",
+      "password": "Mot de passe",
+      "pseudo": "Pseudo"
+    },
     "searchBar" : {
       "placeholder": "Rechercher...",
       "loading": "Chargement..."
