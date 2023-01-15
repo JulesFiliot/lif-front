@@ -55,7 +55,7 @@ export default function Navbar() {
           if (item.action) {
             return (
               <div key={`${item.name}-${item.link}`} className="nav-item">
-                <Button primary clickAction={item.action} content={item.name} />
+                <Button empty primary clickAction={item.action} content={item.name} />
               </div>
             );
           }
