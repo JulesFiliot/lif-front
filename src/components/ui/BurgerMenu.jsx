@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import Button from './Button';
 import '../../styles/components/ui/burgerMenu.scss';
 
 export default function BurgerMenu({ items }) {
@@ -25,9 +26,24 @@ export default function BurgerMenu({ items }) {
       </div>
       <div className={`overlay${isOpen ? ' open' : ''}`}>
         <nav className="overlay-menu">
-          {items.map((i) => (
-            <div key={`${i.name}-${i.link}-${i}`}><Link onClick={() => setIsOpen(false)} to={i.link}>{i.name}</Link></div>
-          ))}
+          {items.map((i) => {
+            if (i.action) {
+              return (
+                <div key={`${i.name}-${i.link}-${i}`}>
+                  <Button
+                    primary
+                    clickAction={() => { setIsOpen(false); i.action(); }}
+                    content={i.name}
+                  />
+                </div>
+              );
+            }
+            return (
+              <div key={`${i.name}-${i.link}-${i}`}>
+                <Link onClick={() => setIsOpen(false)} to={i.link}>{i.name}</Link>
+              </div>
+            );
+          })}
         </nav>
       </div>
     </div>

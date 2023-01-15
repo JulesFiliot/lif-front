@@ -1,17 +1,21 @@
 import React from 'react';
 import { t } from 'i18next';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import SvgBtn from './ui/SvgBtn';
 import BurgerMenu from './ui/BurgerMenu';
 import SearchBar from './ui/SearchBar';
+import Button from './ui/Button';
 import achievementPages from '../constants/achievementPages';
 import subAchievementsMenuItems from '../constants/subAchievementsMenuItems';
 import chevronLeft from '../assets/chevron_left.svg';
 import lifLogo from '../assets/lif_logo.png';
 import '../styles/components/navbar.scss';
 import '../styles/components/ui/backBtn.scss';
+import { logout } from '../core/reducer/user/userActions';
 
 export default function Navbar() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   const urlParams = new URLSearchParams(location.search);
@@ -22,7 +26,7 @@ export default function Navbar() {
     { name: t('navbar.profile'), link: '/profile' },
     { name: t('navbar.achievements'), link: `/achievements?page=${achievementPages.categories}` },
     { name: t('navbar.discover'), link: '/discover' },
-    { name: t('navbar.logout'), link: '/logout' },
+    { name: t('navbar.logout'), action: () => dispatch(logout()) },
   ];
 
   const hasSearchBar = () => {
@@ -47,9 +51,20 @@ export default function Navbar() {
     <div className="navbar-container">
       <SvgBtn svgSource={chevronLeft} customClass="back-button" onClick={() => navigate(-1)} />
       <div className="desktop-menu">
-        {navItems.map((item) => (
-          <div key={`${item.name}-${item.link}`} className="nav-item"><Link to={item.link}>{item.name}</Link></div>
-        ))}
+        {navItems.map((item) => {
+          if (item.action) {
+            return (
+              <div key={`${item.name}-${item.link}`} className="nav-item">
+                <Button primary clickAction={item.action} content={item.name} />
+              </div>
+            );
+          }
+          return (
+            <div key={`${item.name}-${item.link}`} className="nav-item">
+              <Link to={item.link}>{item.name}</Link>
+            </div>
+          );
+        })}
       </div>
       {hasSearchBar() && (
         <SearchBar

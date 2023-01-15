@@ -1,4 +1,4 @@
-import { SET_USER } from './userActions';
+import { LOGOUT, SET_USER } from './userActions';
 
 const initialState = {
   email: null,
@@ -21,6 +21,9 @@ const userReducer = (state = initialState, action) => {
       if (action.payload.token) newState.token = action.payload.token;
 
       return newState;
+    }
+    case LOGOUT: {
+      return initialState;
     }
     default: {
       return state;

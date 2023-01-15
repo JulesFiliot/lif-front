@@ -86,6 +86,10 @@ $button-width: 30px;
         opacity: 0;
         margin-left: 50%;
 
+        .button-classic.primary {
+          width: 200px;
+        }
+
         a {
           text-transform: capitalize;
           color: $color-link;

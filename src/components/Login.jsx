@@ -64,7 +64,7 @@ export default function Login() {
               token: res?.token,
             },
           });
-          navigate('/profile');
+          navigate('/profile', { replace: true });
         })
         .catch((err) => {
           if (err?.response?.status === 404) {

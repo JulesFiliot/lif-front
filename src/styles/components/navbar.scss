@@ -24,6 +24,14 @@
           color: $main-color;
         }
       }
+
+      .button-classic.primary {
+        width: 100px;
+        height: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
     }
   }
 
