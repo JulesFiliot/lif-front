@@ -15,6 +15,7 @@ import '../styles/components/subAchievements.scss';
 import '../styles/components/ui/dotMenuBtn.scss';
 import '../styles/components/ui/popOver.scss';
 import AchievementsList from './AchievementsList';
+import Threads from './Threads';
 
 export default function SubAchievements() {
   const currentSubId = useSelector((state) => state.appReducer.sub);
@@ -75,7 +76,9 @@ export default function SubAchievements() {
       {currentMenu === subAchievementsMenuItems.achievements && (
         <AchievementsList currentSubId={currentSubId} achievementsDefault={achievements} />
       )}
-      {currentMenu === subAchievementsMenuItems.threads && ('TODO Threads here')}
+      {currentMenu === subAchievementsMenuItems.threads && (
+        <Threads currentSubId={currentSubId} />
+      )}
       {currentMenu === subAchievementsMenuItems.validation && ('TODO Validation here')}
     </div>
   );

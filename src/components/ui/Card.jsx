@@ -3,22 +3,22 @@ import PropTypes from 'prop-types';
 import '../../styles/components/ui/card.scss';
 
 export default function Card({
-  title, leftIcon, rightIcon, hasDropdown, dropdownText, width, onClick, noHover,
+  title, leftIcon, rightIcon, hasDropdown, dropdownContent, width, onClick, noHover, alwaysOpen,
 }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   return (
     <div
       style={width ? { width } : {}}
-      className={`card-container${isDropdownOpen ? ' open' : ''}`}
+      className={`card-container${isDropdownOpen || (hasDropdown && alwaysOpen) ? ' open' : ''}`}
     >
       <div
         className={`card-header${onClick && !noHover ? ' clickable' : ''}`}
-        onClick={hasDropdown ? () => {
+        onClick={hasDropdown && !alwaysOpen ? () => {
           setIsDropdownOpen(!isDropdownOpen);
           onClick();
         } : onClick}
-        onKeyDown={hasDropdown ? (e) => {
+        onKeyDown={hasDropdown && !alwaysOpen ? (e) => {
           if (e.type === 'keydown' && (e.key === 'Enter')) {
             setIsDropdownOpen(!isDropdownOpen);
             onClick();
@@ -32,32 +32,35 @@ export default function Card({
         tabIndex={0}
       >
         {leftIcon}
-        {title && <span className="title">{title}</span>}
+        {(title && typeof title === typeof 'string')
+          ? <span className="title">{title}</span> : title}
         {rightIcon}
       </div>
       {hasDropdown && (
-        <div className="card-dropdown">{dropdownText}</div>
+        <div className="card-dropdown">{dropdownContent}</div>
       )}
     </div>
   );
 }
 Card.propTypes = {
-  title: PropTypes.string,
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   leftIcon: PropTypes.element,
   rightIcon: PropTypes.element,
   hasDropdown: PropTypes.bool,
-  dropdownText: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+  dropdownContent: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   width: PropTypes.string,
   onClick: PropTypes.func,
   noHover: PropTypes.bool,
+  alwaysOpen: PropTypes.bool,
 };
 Card.defaultProps = {
   title: '',
   leftIcon: null,
   rightIcon: null,
   hasDropdown: false,
-  dropdownText: '',
+  dropdownContent: '',
   width: null,
   onClick: () => null,
   noHover: false,
+  alwaysOpen: false,
 };

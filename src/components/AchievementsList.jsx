@@ -165,7 +165,7 @@ export default function AchievementsList({ achievementsDefault, currentSubId }) 
             ) : <Loader />}
             noHover
             hasDropdown
-            dropdownText={`${a.name}: ${a.desc}`}
+            dropdownContent={`${a.name}: ${a.desc}`}
           />
         ))}
       </div>
