@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { t } from 'i18next';
 import { toast } from 'react-hot-toast';
 import Popover from '@mui/material/Popover';
@@ -20,6 +21,7 @@ import '../styles/components/ui/dotMenuBtn.scss';
 import '../styles/components/ui/popOver.scss';
 
 export default function AchievementsList({ achievementsDefault, currentSubId }) {
+  const userId = useSelector((state) => state.userReducer.id);
   const [achievements, setAchievements] = useState([]);
   const [loaders, setLoaders] = useState({});
   const [actionPopoverData, setActionPopoverData] = useState(
@@ -31,7 +33,7 @@ export default function AchievementsList({ achievementsDefault, currentSubId }) 
     setLoaders({ ...loaders, [achievementToAdd?.id]: true });
     claimAchievement({
       user_achievement: {
-        user_id: '1',
+        user_id: userId,
         achievement_id: achievementToAdd?.id,
       },
     })
@@ -54,7 +56,7 @@ export default function AchievementsList({ achievementsDefault, currentSubId }) 
     setLoaders({ ...loaders, [achievementToDelete?.id]: true });
     removeAchievement({
       user_achievement: {
-        user_id: '1',
+        user_id: userId,
         user_achievement_id: achievementToDelete.user_achievement_id,
         subcat_id: currentSubId,
       },
@@ -62,11 +64,9 @@ export default function AchievementsList({ achievementsDefault, currentSubId }) 
       .then(() => {
         const index = achievements
           .findIndex((el) => el.id === achievementToDelete?.id);
-        console.log({ index }, achievementToDelete);
         if (index + 1) {
           const newAchievements = [...achievements];
           delete newAchievements[index].user_achievement_id;
-          console.log('the new achievements', newAchievements);
           setAchievements(newAchievements);
         }
       })
@@ -136,13 +136,6 @@ export default function AchievementsList({ achievementsDefault, currentSubId }) 
     setAchievements(dataArray);
     setLoaders(dataArray.reduce((acc, v) => ({ ...acc, [v.id]: false }), {}));
   }, [achievementsDefault]);
-
-  useEffect(() => {
-    console.log({ achievements });
-  }, [achievements]);
-  useEffect(() => {
-    console.log({ actionPopoverData });
-  }, [actionPopoverData]);
 
   return (
     <div className="achievements-list-container">
