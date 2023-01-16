@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { toast } from 'react-hot-toast';
 
-import { getThreadsFromSub } from '../api/threads';
+import { getThreadsFromSub, voteThread } from '../api/threads';
 
 import '../styles/components/threads.scss';
 import Card from './ui/Card';
@@ -10,37 +11,21 @@ import UserActionBar from './ui/UserActionBar';
 
 // todo add real score & comments count
 export default function Threads({ currentSubId }) {
+  const user = useSelector((state) => state.userReducer);
   const [threads, setThreads] = useState([]);
   const [currentThread, setCurrentThread] = useState(null);
+
+  const voteForThread = async (threadId, vote, cancel) => (new Promise((resolve, reject) => {
+    // {user_id, vote: 'up' ou 'down', 'cancel': true ou false}
+    voteThread(threadId, { user_id: user.id, vote, cancel })
+      .then((res) => resolve(res))
+      .catch((err) => { reject(err); toast.error(err.message); });
+  }));
 
   const extractData = (data) => {
     const everyThread = Object.entries(data).map(([key, value]) => ({ ...value, id: key }));
     return everyThread;
   };
-
-  /* function formatData(data) {
-    const childrenI = data.filter((d) => d.parent_id);
-    const roots = data.filter((d) => !d.parent_id);
-
-    function assignChildren(children, parent) {
-      children.forEach((child) => {
-        if (child.parent_id === parent.id) {
-          if (!parent.children) {
-            // eslint-disable-next-line no-param-reassign
-            parent.children = [];
-          }
-          parent.children.push(child);
-          assignChildren(children, child);
-        }
-      });
-    }
-
-    roots.forEach((root) => {
-      assignChildren(childrenI, root);
-    });
-
-    return roots;
-  } */
 
   function formatData(data) {
     function findChildren(d) {
@@ -79,7 +64,7 @@ export default function Threads({ currentSubId }) {
         {nestingLevel ? <div className="nesting-line" /> : null}
         <div className="children-cards">
           {children.map((child) => (
-            <>
+            <div key={`child-thread-${child.created_at}-${child.message}`}>
               <Card
                 hasDropdown
                 alwaysOpen
@@ -93,16 +78,17 @@ export default function Threads({ currentSubId }) {
                     <div>{child.message}</div>
                     <UserActionBar
                       score={child.score}
-                      commentsCount={200}
                       hasVoteBtn
                       hasReply
                       noCommentsCount
+                      onVoteUp={() => voteForThread(child.id, 'up', child.voted)}
+                      onVoteDown={() => voteForThread(child.id, 'down', child.voted)}
                     />
                   </div>
               )}
               />
               {renderChildren(child.children, nestingLevel + 1)}
-            </>
+            </div>
           ))}
         </div>
       </div>
@@ -110,7 +96,7 @@ export default function Threads({ currentSubId }) {
   };
 
   useEffect(() => {
-    getThreadsFromSub(currentSubId)
+    getThreadsFromSub(currentSubId, user.id)
       .then((res) => {
         const extractedData = extractData(res);
         const formattedThreads = formatData(extractedData);
@@ -138,6 +124,8 @@ export default function Threads({ currentSubId }) {
                 score={t.score}
                 commentsCount={t.childrenCount}
                 hasVoteBtn
+                onVoteUp={() => voteForThread(t.id, 'up', t.voted)}
+                onVoteDown={() => voteForThread(t.id, 'down', t.voted)}
               />
 )}
           />

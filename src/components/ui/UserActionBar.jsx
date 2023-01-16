@@ -50,7 +50,7 @@ UserActionBar.propTypes = {
   score: PropTypes.number.isRequired,
   onVoteDown: PropTypes.func,
   onVoteUp: PropTypes.func,
-  commentsCount: PropTypes.number.isRequired,
+  commentsCount: PropTypes.number,
   hasReply: PropTypes.bool,
   hasVoteBtn: PropTypes.bool,
   noCommentsCount: PropTypes.bool,
@@ -61,4 +61,5 @@ UserActionBar.defaultProps = {
   hasReply: false,
   hasVoteBtn: false,
   noCommentsCount: false,
+  commentsCount: 0,
 };

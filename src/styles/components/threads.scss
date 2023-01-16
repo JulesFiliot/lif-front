@@ -11,6 +11,7 @@
 
 .threads-achievements-container {
   .card-container {
+    width: 100%;
     margin-bottom: 8px;
 
     .card-dropdown {
@@ -20,6 +21,7 @@
 }
 
 .threads-details-container {
+  width: 100%;
   display: flex;
   flex-direction: column;
   padding-left: 10px;
@@ -56,7 +58,7 @@
 
     .nesting-line {
       width: 2px;
-      height: 100%;
+      height: auto;
       background-color: $sub-color1;
       margin-right: 10px;
       margin-left: 5px;
