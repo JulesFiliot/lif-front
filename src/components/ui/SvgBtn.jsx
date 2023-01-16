@@ -10,7 +10,7 @@ export default function SvgBtn({ onClick, svgSource, customClass }) {
       className={`svg-button${customClass ? ` ${customClass}` : ''}`}
       onClick={onClick}
     >
-      <SVG src={svgSource} alt="cross icon" />
+      <SVG src={svgSource} alt="icon" />
     </button>
   );
 }

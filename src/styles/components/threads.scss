@@ -1,3 +1,69 @@
 @use "../variables.scss" as *;
 
-$none: 300px;
+.threads-achivements-container,
+.threads-details-container {
+  .thread-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-transform: none;
+  }
+}
+
+.threads-achievements-container {
+  .card-container {
+    .card-dropdown {
+      padding: 8px;
+    }
+  }
+}
+
+.threads-details-container {
+  display: flex;
+  flex-direction: column;
+  padding-left: 10px;
+  padding-right: 10px;
+
+  .thread-title {
+    text-transform: none;
+  }
+
+  .card-container {
+    width: 100%;
+    margin-bottom: 8px;
+
+    .card-dropdown {
+      padding-bottom: 0;
+
+      .user-action-bar-container {
+        margin-top: 5px;
+        margin-left: -10px;
+        margin-right: -10px;
+      }
+
+      .thread-comment-content {
+        display: flex;
+        flex-direction: column;
+      }
+    }
+  }
+
+  .children-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+
+    .nesting-line {
+      width: 2px;
+      height: 100%;
+      background-color: $sub-color1;
+      margin-right: 10px;
+      margin-left: 5px;
+    }
+
+    .children-cards {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+  }
+}

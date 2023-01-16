@@ -49,6 +49,9 @@
         "quickAdd": "Ajout rapide",
         "remove": "Supprimer"
       }
+    },
+    "userActionBar": {
+      "reply": "Répondre"
     }
   }
 }

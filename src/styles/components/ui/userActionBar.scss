@@ -1,0 +1,49 @@
+@use "../../variables.scss" as *;
+
+.user-action-bar-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  .score-container,
+  .reply-container,
+  .comments-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  svg {
+    width: 20px;
+    height: 20px;
+    fill: $sub-color1;
+  }
+
+  .arrow-down,
+  .arrow-up {
+    path {
+      fill: $sub-color1;
+      stroke-width: 1px;
+      stroke: $sub-color1;
+    }
+  }
+
+  .arrow-down {
+    svg {
+      transform: rotate(180deg);
+    }
+  }
+
+  .reply-container {
+    button {
+      width: 70px;
+    }
+  }
+
+  .comments-container {
+    .comments-count {
+      margin-left: 5px;
+      margin-right: 5px;
+    }
+  }
+}
