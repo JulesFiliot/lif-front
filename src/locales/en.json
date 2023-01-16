@@ -48,7 +48,8 @@
         "add": "Add",
         "quickAdd": "Quick add",
         "remove": "Remove"
-      }
+      },
+      "rank": "Rank"
     }
   }
 }

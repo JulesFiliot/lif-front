@@ -21,5 +21,12 @@
     .dot-menu-button {
       padding-right: 0;
     }
+    .achievement-description {
+      display: flex;
+      flex-direction: column;
+      .rank-container {
+        margin-top: 5px;
+      }
+    }
   }
 }
