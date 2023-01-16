@@ -11,24 +11,28 @@ import arrowUp from '../../assets/arrow_up.svg';
 import '../../styles/components/ui/userActionBar.scss';
 
 export default function UserActionBar({
-  score, onVoteDown, onVoteUp, commentsCount, hasReply, hasVoteBtn, noCommentsCount,
+  score, onVoteDown, onVoteUp,
+  commentsCount, hasReply, hasVoteBtn,
+  noCommentsCount, votedDown, votedUp,
 }) {
   return (
     <div className="user-action-bar-container">
       <div className="score-container">
         {hasVoteBtn && (
           <SvgBtn
+            disabled={votedDown}
             svgSource={arrowUp}
             onClick={onVoteUp}
-            customClass="arrow-up"
+            customClass={`arrow-up${votedUp ? ' voted' : ''}`}
           />
         )}
         <span className="score">{score}</span>
         {hasVoteBtn && (
           <SvgBtn
+            disabled={votedUp}
             svgSource={arrowUp}
             onClick={onVoteDown}
-            customClass="arrow-down"
+            customClass={`arrow-down${votedDown ? ' voted' : ''}`}
           />
         )}
       </div>
@@ -54,6 +58,8 @@ UserActionBar.propTypes = {
   hasReply: PropTypes.bool,
   hasVoteBtn: PropTypes.bool,
   noCommentsCount: PropTypes.bool,
+  votedDown: PropTypes.bool,
+  votedUp: PropTypes.bool,
 };
 UserActionBar.defaultProps = {
   onVoteDown: () => {},
@@ -62,4 +68,6 @@ UserActionBar.defaultProps = {
   hasVoteBtn: false,
   noCommentsCount: false,
   commentsCount: 0,
+  votedDown: false,
+  votedUp: false,
 };

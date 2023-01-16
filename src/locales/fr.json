@@ -39,6 +39,8 @@
     },
     "subsAchievements": {
       "title": "Réussites",
+      "rank": "Rang",
+      "allThreads": "Tous les forums",
       "horizontalMenu": {
         "achievements": "Réussites",
         "threads": "Forum",
@@ -48,8 +50,7 @@
         "add": "Ajouter",
         "quickAdd": "Ajout rapide",
         "remove": "Supprimer"
-      },
-      "rank": "Rang"
+      }
     },
     "userActionBar": {
       "reply": "Répondre"

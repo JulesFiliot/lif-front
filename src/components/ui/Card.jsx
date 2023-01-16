@@ -3,14 +3,17 @@ import PropTypes from 'prop-types';
 import '../../styles/components/ui/card.scss';
 
 export default function Card({
-  title, leftIcon, rightIcon, hasDropdown, dropdownContent, width, onClick, noHover, alwaysOpen,
+  title, leftIcon, rightIcon,
+  hasDropdown, dropdownContent,
+  width, onClick, noHover,
+  alwaysOpen, customClass,
 }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   return (
     <div
       style={width ? { width } : {}}
-      className={`card-container${isDropdownOpen || (hasDropdown && alwaysOpen) ? ' open' : ''}`}
+      className={`card-container${customClass ? ` ${customClass}` : ''}${isDropdownOpen || (hasDropdown && alwaysOpen) ? ' open' : ''}`}
     >
       <div
         className={`card-header${onClick && !noHover ? ' clickable' : ''}`}
@@ -52,6 +55,7 @@ Card.propTypes = {
   onClick: PropTypes.func,
   noHover: PropTypes.bool,
   alwaysOpen: PropTypes.bool,
+  customClass: PropTypes.string,
 };
 Card.defaultProps = {
   title: '',
@@ -63,4 +67,5 @@ Card.defaultProps = {
   onClick: () => null,
   noHover: false,
   alwaysOpen: false,
+  customClass: '',
 };

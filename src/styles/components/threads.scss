@@ -2,10 +2,48 @@
 
 .threads-achievements-container,
 .threads-details-container {
+  width: 100%;
+  max-width: 640px;
+  padding-left: 10px;
+  padding-right: 10px;
+
+  .thread-card {
+    .card-header {
+      height: 60px;
+    }
+  }
+
   .thread-title {
     overflow: hidden;
     text-overflow: ellipsis;
     text-transform: none;
+    display: flex;
+    flex-direction: column;
+
+    .username {
+      color: $sub-color1-darker;
+    }
+  }
+
+  .all-threads-btn {
+    width: 130px;
+    margin-bottom: 15px;
+
+    .all-threads-btn-content {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      text-transform: capitalize;
+
+      svg {
+        margin-right: 10px;
+        width: 15px;
+        height: 15px;
+        stroke: $sub-color1;
+        path { fill: $sub-color1; }
+      }
+    }
   }
 }
 
@@ -21,15 +59,8 @@
 }
 
 .threads-details-container {
-  width: 100%;
   display: flex;
   flex-direction: column;
-  padding-left: 10px;
-  padding-right: 10px;
-
-  .thread-title {
-    text-transform: none;
-  }
 
   .card-container {
     width: 100%;

@@ -39,6 +39,8 @@
     },
     "subsAchievements": {
       "title": "Achievements",	
+      "rank": "Rank",
+      "allThreads": "All threads",
       "horizontalMenu": {
         "achievements": "Achievements",
         "threads": "Threads",
@@ -48,8 +50,7 @@
         "add": "Add",
         "quickAdd": "Quick add",
         "remove": "Remove"
-      },
-      "rank": "Rank"
+      }
     },
     "userActionBar": {
       "reply": "Reply"

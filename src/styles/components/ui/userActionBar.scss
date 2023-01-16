@@ -26,6 +26,13 @@
       stroke-width: 1px;
       stroke: $sub-color1;
     }
+
+    &.voted {
+      path {
+        fill: $main-color;
+        stroke: $main-color;
+      }
+    }
   }
 
   .arrow-down {
