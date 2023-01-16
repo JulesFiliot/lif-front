@@ -11,7 +11,7 @@ import arrowUp from '../../assets/arrow_up.svg';
 import '../../styles/components/ui/userActionBar.scss';
 
 export default function UserActionBar({
-  score, onVoteDown, onVoteUp, commentsCount, hasReply, hasVoteBtn,
+  score, onVoteDown, onVoteUp, commentsCount, hasReply, hasVoteBtn, noCommentsCount,
 }) {
   return (
     <div className="user-action-bar-container">
@@ -32,10 +32,12 @@ export default function UserActionBar({
           />
         )}
       </div>
-      <div className="comments-container">
-        <SVG src={commentIcon} className="comment-icon" />
-        <span className="comments-count">{commentsCount}</span>
-      </div>
+      {!noCommentsCount && (
+        <div className="comments-container">
+          <SVG src={commentIcon} className="comment-icon" />
+          <span className="comments-count">{commentsCount}</span>
+        </div>
+      )}
       {hasReply && (
         <div className="reply-container">
           <Button content={t('userActionBar.reply')} />
@@ -51,10 +53,12 @@ UserActionBar.propTypes = {
   commentsCount: PropTypes.number.isRequired,
   hasReply: PropTypes.bool,
   hasVoteBtn: PropTypes.bool,
+  noCommentsCount: PropTypes.bool,
 };
 UserActionBar.defaultProps = {
   onVoteDown: () => {},
   onVoteUp: () => {},
   hasReply: false,
   hasVoteBtn: false,
+  noCommentsCount: false,
 };

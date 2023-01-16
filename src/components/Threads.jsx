@@ -13,6 +13,63 @@ export default function Threads({ currentSubId }) {
   const [threads, setThreads] = useState([]);
   const [currentThread, setCurrentThread] = useState(null);
 
+  const extractData = (data) => {
+    const everyThread = Object.entries(data).map(([key, value]) => ({ ...value, id: key }));
+    return everyThread;
+  };
+
+  /* function formatData(data) {
+    const childrenI = data.filter((d) => d.parent_id);
+    const roots = data.filter((d) => !d.parent_id);
+
+    function assignChildren(children, parent) {
+      children.forEach((child) => {
+        if (child.parent_id === parent.id) {
+          if (!parent.children) {
+            // eslint-disable-next-line no-param-reassign
+            parent.children = [];
+          }
+          parent.children.push(child);
+          assignChildren(children, child);
+        }
+      });
+    }
+
+    roots.forEach((root) => {
+      assignChildren(childrenI, root);
+    });
+
+    return roots;
+  } */
+
+  function formatData(data) {
+    function findChildren(d) {
+      return data.filter((x) => x.parent_id === d.id);
+    }
+
+    function assignChildren(node) {
+      const children = findChildren(node);
+      if (children.length) {
+        // eslint-disable-next-line no-param-reassign
+        node.children = children;
+        children.forEach((child) => assignChildren(child));
+      }
+    }
+
+    function countChildren(node) {
+      if (!node.children) return 0;
+      return node.children.reduce((acc, child) => acc + countChildren(child) + 1, 0);
+    }
+
+    const roots = data.filter((d) => !d.parent_id);
+    roots.forEach((root) => {
+      assignChildren(root);
+      // eslint-disable-next-line no-param-reassign
+      root.childrenCount = countChildren(root);
+    });
+    return roots;
+  }
+
   const renderChildren = (children, nestingLevel) => {
     if (!children || children?.length === 0) {
       return null;
@@ -24,22 +81,22 @@ export default function Threads({ currentSubId }) {
           {children.map((child) => (
             <>
               <Card
-                key={`child-thread-${child.created_at}-${child.message}`}
                 hasDropdown
                 alwaysOpen
                 title={(
                   <div className="thread-title">
-                    unknown_user
+                    {`${child.username || 'unknown_user'}`}
                   </div>
               )}
                 dropdownContent={(
                   <div className="thread-comment-content">
                     <div>{child.message}</div>
                     <UserActionBar
-                      score={10}
+                      score={child.score}
                       commentsCount={200}
                       hasVoteBtn
                       hasReply
+                      noCommentsCount
                     />
                   </div>
               )}
@@ -55,93 +112,9 @@ export default function Threads({ currentSubId }) {
   useEffect(() => {
     getThreadsFromSub(currentSubId)
       .then((res) => {
-        // todo format data on receive to get nested comments
-        console.log(res, typeof res);
-        const mockData = [
-          {
-            created_at: '2023-01-13T08:39:34.796Z',
-            message: 'I found a weird rock in my yard',
-            subcat_id: 'random_subcat_id',
-            children: [
-              {
-                created_at: '2023-01-13T08:39:34.796Z',
-                message: 'I found a weird rock in my cat',
-                subcat_id: 'random_subcat_id',
-              },
-              {
-                created_at: '2023-01-13T08:39:34.796Z',
-                message: 'I found a weird rock in my dog',
-                subcat_id: 'random_subcat_id',
-                children: [
-                  {
-                    created_at: '2023-01-13T08:39:34.796Z',
-                    message: 'I found a weird rock in my car',
-                    subcat_id: 'random_subcat_id',
-                  },
-                  {
-                    created_at: '2023-01-13T08:39:34.796Z',
-                    message: 'I found a weird rock in my space car',
-                    subcat_id: 'random_subcat_id',
-                    children: [
-                      {
-                        created_at: '2023-01-13T08:39:34.796Z',
-                        message: 'I found a weird rock in my dad',
-                        subcat_id: 'random_subcat_id',
-                      },
-                      {
-                        created_at: '2023-01-13T08:39:34.796Z',
-                        message: 'I found a weird rock in my dad',
-                        subcat_id: 'random_subcat_id',
-                        children: [
-                          {
-                            created_at: '2023-01-13T08:39:34.796Z',
-                            message: 'I found a weird rock in my chocolate',
-                            subcat_id: 'random_subcat_id',
-                            children: [
-                              {
-                                created_at: '2023-01-13T08:39:34.796Z',
-                                message: 'I found a weird rock in my brownie',
-                                subcat_id: 'random_subcat_id',
-                              },
-                              {
-                                created_at: '2023-01-13T08:39:34.796Z',
-                                message: 'I found a weird rock in my garage',
-                                subcat_id: 'random_subcat_id',
-                              },
-                            ],
-                          },
-                        ],
-                      },
-                    ],
-                  },
-                  {
-                    created_at: '2023-01-13T08:39:34.796Z',
-                    message: 'I found a weird rock in my plane',
-                    subcat_id: 'random_subcat_id',
-                  },
-                ],
-              },
-              {
-                created_at: '2023-01-13T08:39:34.796Z',
-                message: 'I found a weird rock in my closet',
-                subcat_id: 'random_subcat_id',
-              },
-              {
-                created_at: '2023-01-13T08:39:34.796Z',
-                message: 'I found a weird rock in my brain',
-                subcat_id: 'random_subcat_id',
-                children: [
-                  {
-                    created_at: '2023-01-13T08:39:34.796Z',
-                    message: 'I found a weird rock in my rock',
-                    subcat_id: 'random_subcat_id',
-                  },
-                ],
-              },
-            ],
-          },
-        ];
-        setThreads(mockData);
+        const extractedData = extractData(res);
+        const formattedThreads = formatData(extractedData);
+        setThreads(formattedThreads);
       })
       .catch((err) => toast.error(err.message));
   }, []);
@@ -162,8 +135,8 @@ export default function Threads({ currentSubId }) {
             onClick={() => setCurrentThread(t)}
             dropdownContent={(
               <UserActionBar
-                score={10}
-                commentsCount={200}
+                score={t.score}
+                commentsCount={t.childrenCount}
                 hasVoteBtn
               />
 )}
@@ -177,15 +150,15 @@ export default function Threads({ currentSubId }) {
           alwaysOpen
           title={(
             <div className="thread-title">
-              unknown_user
+              {`${currentThread.username || 'unknown_user'}`}
             </div>
           )}
           dropdownContent={(
             <div className="thread-comment-content">
-              <div>{`${currentThread.message}super mot hyper loooong avec qqwes phrease dajsidao jajajo jaoisjd`}</div>
+              <div>{`${currentThread.message}`}</div>
               <UserActionBar
-                score={10}
-                commentsCount={200}
+                score={currentThread.score}
+                commentsCount={currentThread.childrenCount}
                 hasVoteBtn
                 hasReply
               />

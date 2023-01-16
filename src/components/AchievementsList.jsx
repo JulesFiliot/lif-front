@@ -43,7 +43,10 @@ export default function AchievementsList({ achievementsDefault, currentSubId }) 
           .findIndex((el) => el.id === achievementToAdd?.id);
         if (index + 1) {
           const newAchievements = [...achievements];
-          newAchievements[index] = data;
+          newAchievements[index].user_achievement_id = data.user_achievement_id;
+          newAchievements[index].location = data.location;
+          newAchievements[index].image = data.image;
+          newAchievements[index].date = data.date;
           setAchievements(newAchievements);
         }
       })
@@ -167,12 +170,9 @@ export default function AchievementsList({ achievementsDefault, currentSubId }) 
             hasDropdown
             dropdownContent={(
               <div className="achievement-description">
-                <div>
-                  {`${a.name}: ${a.desc}`}
-                </div>
-
+                <div>{`${a.name}: ${a.desc}`}</div>
                 <div className="rank-container">
-                  { `${t('subsAchievements.rank')}: ${a.rank.charAt(0).toUpperCase() + a.rank.slice(1)}`}
+                  {`${t('subsAchievements.rank')}: ${a.rank.charAt(0).toUpperCase() + a.rank.slice(1)}`}
                 </div>
               </div>
 )}

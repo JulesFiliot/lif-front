@@ -1,6 +1,6 @@
 @use "../variables.scss" as *;
 
-.threads-achivements-container,
+.threads-achievements-container,
 .threads-details-container {
   .thread-title {
     overflow: hidden;
@@ -11,6 +11,8 @@
 
 .threads-achievements-container {
   .card-container {
+    margin-bottom: 8px;
+
     .card-dropdown {
       padding: 8px;
     }

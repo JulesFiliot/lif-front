@@ -48,11 +48,11 @@
         "add": "Add",
         "quickAdd": "Quick add",
         "remove": "Remove"
-      }
+      },
+      "rank": "Rank"
     },
     "userActionBar": {
       "reply": "Reply"
-    },
-    "rank": "Rank"
+    }
   }
 }

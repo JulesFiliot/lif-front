@@ -32,6 +32,7 @@ export default function BurgerMenu({ items }) {
                 <div key={`${i.name}-${i.link}-${i}`}>
                   <Button
                     primary
+                    empty
                     clickAction={() => { setIsOpen(false); i.action(); }}
                     content={i.name}
                   />
