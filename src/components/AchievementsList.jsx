@@ -165,7 +165,17 @@ export default function AchievementsList({ achievementsDefault, currentSubId }) 
             ) : <Loader />}
             noHover
             hasDropdown
-            dropdownContent={`${a.name}: ${a.desc}`}
+            dropdownContent={(
+              <div className="achievement-description">
+                <div>
+                  {`${a.name}: ${a.desc}`}
+                </div>
+
+                <div className="rank-container">
+                  { `${t('subsAchievements.rank')}: ${a.rank.charAt(0).toUpperCase() + a.rank.slice(1)}`}
+                </div>
+              </div>
+)}
           />
         ))}
       </div>
