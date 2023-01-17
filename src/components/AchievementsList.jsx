@@ -35,6 +35,7 @@ export default function AchievementsList({ achievementsDefault, currentSubId }) 
       user_achievement: {
         user_id: userId,
         achievement_id: achievementToAdd?.id,
+        subcat_id: currentSubId,
       },
     })
       .then((data) => {
@@ -132,12 +133,10 @@ export default function AchievementsList({ achievementsDefault, currentSubId }) 
   };
 
   useEffect(() => {
-    const dataArray = Object.entries(achievementsDefault).map(([key, value]) => ({
-      id: key,
-      ...value,
-    }));
-    setAchievements(dataArray);
-    setLoaders(dataArray.reduce((acc, v) => ({ ...acc, [v.id]: false }), {}));
+    if (achievementsDefault || achievementsDefault?.length === 0) {
+      setAchievements(achievementsDefault);
+      setLoaders(achievementsDefault.reduce((acc, v) => ({ ...acc, [v.id]: false }), {}));
+    }
   }, [achievementsDefault]);
 
   return (
