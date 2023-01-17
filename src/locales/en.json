@@ -37,6 +37,9 @@
       "title": "Subs",
       "singular_title": "Sub"
     },
+    "profile": {
+      "title": "Profile"
+    },
     "subsAchievements": {
       "title": "Achievements",	
       "rank": "Rank",

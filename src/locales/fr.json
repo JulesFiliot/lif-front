@@ -46,6 +46,9 @@
         "threads": "Forum",
         "validations": "Validations"
       },
+      "profile": {
+        "title": "Profil"
+      },
       "actionsMenu": {
         "add": "Ajouter",
         "quickAdd": "Ajout rapide",

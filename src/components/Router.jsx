@@ -4,6 +4,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 // pages import
 import Layout from './Layout';
 import Achievements from '../pages/Achievements';
+import Profile from '../pages/Profile';
 import Login from './Login';
 import Register from './Register';
 import ProtectedRoute from './ProtectedRoute';
@@ -18,7 +19,7 @@ function Router() {
       <Route element={<ProtectedRoute redirectTo="/login" />}>
         <Route element={<Layout />}>
           <Route exact path="/achievements" element={<Achievements />} />
-          <Route exact path="/profile" element={<Achievements />} />
+          <Route exact path="/profile" element={<Profile />} />
           <Route exact path="/discover" element={<Achievements />} />
         </Route>
       </Route>

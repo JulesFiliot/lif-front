@@ -21,6 +21,10 @@ const userReducer = (state = initialState, action) => {
       if (action.payload.username) newState.username = action.payload.username;
       if (action.payload.bio) newState.bio = action.payload.bio;
       if (action.payload.token) newState.token = action.payload.token;
+      if (action.payload.subcat_count) newState.subcat_count = action.payload.subcat_count;
+      if (action.payload.user_achievements) {
+        newState.user_achievements = action.payload.user_achievements;
+      }
 
       return newState;
     }
