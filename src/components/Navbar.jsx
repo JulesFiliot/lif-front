@@ -49,7 +49,19 @@ export default function Navbar() {
 
   return (
     <div className="navbar-container">
-      <SvgBtn svgSource={chevronLeft} customClass="back-button" onClick={() => navigate(-1)} />
+      <SvgBtn
+        svgSource={chevronLeft}
+        customClass="back-button"
+        onClick={() => {
+          if (achievementPage === achievementPages.subCategoriesAchievements) {
+            navigate(`/achievements?page=${achievementPages.subCategories}`);
+          } else if (achievementPage === achievementPages.subCategories) {
+            navigate(`/achievements?page=${achievementPages.categories}`);
+          } else {
+            navigate(-1);
+          }
+        }}
+      />
       <div className="desktop-menu">
         {navItems.map((item) => {
           if (item.action) {

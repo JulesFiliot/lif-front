@@ -10,6 +10,7 @@
   .message {
     white-space: pre-wrap;
     text-align: start;
+    word-break: break-word;
     overflow-wrap: break-word;
   }
 
@@ -20,11 +21,16 @@
   }
 
   .thread-title {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    text-transform: none;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
+    text-transform: none;
+
+    .big-title {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      text-transform: none;
+    }
 
     .username {
       color: $sub-color1-darker;
@@ -91,11 +97,28 @@
   flex-direction: column;
 
   .card-container {
-    // max-width: 300px;
     width: 100%;
     margin-bottom: 8px;
 
+    .card-header {
+      max-height: fit-content;
+      height: 100%;
+
+      .thread-title {
+        .big-title {
+          white-space: pre-wrap;
+          word-break: break-word;
+          overflow-wrap: break-word;
+        }
+
+        .username {
+          color: $sub-color1-darker;
+        }
+      }
+    }
+
     .card-dropdown {
+      max-height: fit-content;
       padding-bottom: 0;
 
       .user-action-bar-container {

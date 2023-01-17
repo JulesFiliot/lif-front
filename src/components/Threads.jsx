@@ -157,14 +157,14 @@ export default function Threads({ currentSubId }) {
           {children.map((child) => (
             <div key={`child-thread-${child.created_at}-${child.message}`}>
               <Card
-                // width={`calc(100% - ${nestingLevel * 20}px)`}
+                // width={`calc(100% - ${nestingLevel * 17}px)`}
                 hasDropdown
                 alwaysOpen
                 title={(
                   <div className="thread-title">
                     <span className="username">{`${child.username || 'unknown_user'}`}</span>
                   </div>
-              )}
+                )}
                 dropdownContent={(
                   <div className="thread-comment-content">
                     <div className="message">{child.message}</div>
@@ -183,7 +183,7 @@ export default function Threads({ currentSubId }) {
                       votedUp={child.voted === voted.up}
                     />
                   </div>
-              )}
+                )}
               />
               {renderChildren(child.children, nestingLevel + 1)}
             </div>
@@ -231,6 +231,7 @@ export default function Threads({ currentSubId }) {
         <div className="thread-reply-modal-footer">
           <Button
             primary
+            empty
             content={!replyingTo?.create ? t('subsAchievements.threadReplyModal.send') : t('subsAchievements.threadReplyModal.create')}
             clickAction={() => {
               if (!replyingTo?.create) {

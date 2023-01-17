@@ -8,6 +8,8 @@ $button-height: 19px;
 $button-width: 30px;
 
 .burder-menu-container {
+  z-index: 100;
+
   .button-container {
     position: relative;
     height: $button-height;
