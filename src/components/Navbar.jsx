@@ -66,7 +66,8 @@ export default function Navbar() {
           );
         })}
       </div>
-      {hasSearchBar() && (
+      {/* //todo re-enable search bar when it works with achievements filtering */}
+      {hasSearchBar() && false && (
         <SearchBar
           reqUrl="http://openlibrary.org/search.json"
           reqField="title"
@@ -76,7 +77,7 @@ export default function Navbar() {
           }}
         />
       )}
-      <img src={lifLogo} alt="LIF Logo" className={`logo${hasSearchBar() ? ' hide' : ''}`} />
+      <img src={lifLogo} alt="LIF Logo" className={`logo${(hasSearchBar() && false) ? ' hide' : ''}`} />
       <BurgerMenu items={navItems} />
     </div>
   );

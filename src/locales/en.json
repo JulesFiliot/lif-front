@@ -41,6 +41,7 @@
       "title": "Achievements",	
       "rank": "Rank",
       "allThreads": "All threads",
+      "createThread": "Create thread",
       "horizontalMenu": {
         "achievements": "Achievements",
         "threads": "Threads",
@@ -55,7 +56,8 @@
         "replyTo": "Reply to",
         "send": "Send",
         "title": "Title",
-        "message": "Message"
+        "message": "Message",
+        "create": "Create"
       }
     },
     "userActionBar": {

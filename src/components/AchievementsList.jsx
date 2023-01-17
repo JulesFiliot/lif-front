@@ -39,7 +39,6 @@ export default function AchievementsList({ achievementsDefault, currentSubId }) 
       },
     })
       .then((data) => {
-        // todo check that it works with data (data.data ?)
         const index = achievements
           .findIndex((el) => el.id === achievementToAdd?.id);
         if (index + 1) {

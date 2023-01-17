@@ -5,12 +5,14 @@ import PropTypes from 'prop-types';
 import { toast } from 'react-hot-toast';
 import Modal from '@mui/material/Modal';
 import SVG from 'react-inlinesvg';
+import _ from 'lodash';
 
 import Card from './ui/Card';
 import UserActionBar from './ui/UserActionBar';
 import Button from './ui/Button';
 import TextInput from './ui/TextInput';
 import chevronLeft from '../assets/chevron_left.svg';
+import crossIcon from '../assets/cross.svg';
 
 import { createThread, getThreadsFromSub, voteThread } from '../api/threads';
 
@@ -20,7 +22,7 @@ export default function Threads({ currentSubId }) {
   const user = useSelector((state) => state.userReducer);
   const [threads, setThreads] = useState([]);
   const [currentThread, setCurrentThread] = useState(null);
-  const [textareaValue, setTextareaValue] = useState('');
+  const [textInputs, setTextInputs] = useState({ textarea: '', classicText: '' });
   const [isReplyModalOpen, setIsReplyModalOpen] = useState(false);
   const [replyingTo, setReplyingTo] = useState(null);
   const voted = { down: 'down', up: 'up', no: 'no' };
@@ -28,7 +30,6 @@ export default function Threads({ currentSubId }) {
   function replaceObject(id, newObject, list) {
     function findAndReplace(obj) {
       if (obj.id === id) {
-        console.log('FOUND!');
         return newObject;
       }
       if (obj.children) {
@@ -44,18 +45,20 @@ export default function Threads({ currentSubId }) {
     voteThread(thread.id, { user_id: user.id, vote, cancel })
       .then((res) => {
         let newScore;
-        if ((cancel && vote === voted.up) || vote === voted.down) {
+        if ((cancel && vote === voted.up) || (!cancel && vote === voted.down)) {
           newScore = thread.score - 1;
         } else {
           newScore = thread.score + 1;
         }
-
         const newThread = { ...thread, voted: cancel ? voted.no : vote, score: newScore };
-        const newThreadsList = [...threads];
-        replaceObject(thread.id, newThread, newThreadsList);
-        setThreads(newThreadsList);
-        console.log({ newThread });
-        console.log({ newThreadsList });
+        const trueThreadsCopy = _.cloneDeep(threads);
+        const newThreadList = replaceObject(thread.id, newThread, trueThreadsCopy);
+
+        if (currentThread) {
+          const updatedCurrentThread = newThreadList.find((th) => th.id === currentThread.id);
+          setCurrentThread(updatedCurrentThread);
+        }
+        setThreads(newThreadList);
         resolve(res);
       })
       .catch((err) => { reject(err); toast.error(err.message); });
@@ -68,13 +71,29 @@ export default function Threads({ currentSubId }) {
         const newThreadsList = threads;
 
         if (newThread.children && newThread.children.length >= 0) {
-          newThread.children.push({ ...payload, id: resId });
+          newThread.children.push({
+            ...payload, id: resId, score: 0, voted: 'no',
+          });
         } else {
-          newThread.children = [{ ...payload, id: resId }];
+          newThread.children = [{
+            ...payload, id: resId, score: 0, voted: 'no',
+          }];
         }
         replaceObject(thread.id, newThread, newThreadsList);
         setCurrentThread({ ...currentThread, childrenCount: currentThread.childrenCount + 1 });
         threads.find((th) => th.id === currentThread.id).childrenCount += 1;
+        resolve();
+      })
+      .catch((err) => { reject(err); toast.error(err.message); });
+  }));
+
+  const createNewThread = (payload) => (new Promise((resolve, reject) => {
+    createThread(payload)
+      .then((resId) => {
+        const newThread = {
+          ...payload, id: resId, score: 0, voted: 'no', children: [],
+        };
+        setThreads([...threads, newThread]);
         resolve();
       })
       .catch((err) => { reject(err); toast.error(err.message); });
@@ -182,34 +201,65 @@ export default function Threads({ currentSubId }) {
     >
       <div className="thread-reply-modal-container">
         <div className="thread-reply-modal-header">
-          {`${t('subsAchievements.threadReplyModal.replyTo')} ${replyingTo?.username}`}
+          {
+          !replyingTo?.create
+            ? `${t('subsAchievements.threadReplyModal.replyTo')} ${replyingTo?.username}`
+            : `${t('subsAchievements.createThread')}`
+          }
         </div>
-        <div className="thread-reply-modal-content">
+        <div className={`thread-reply-modal-content${replyingTo?.create ? ' create-thread' : ''}`}>
+          {
+          replyingTo?.create
+            ? (
+              <TextInput
+                customClass="classic-text"
+                placeholder={t('subsAchievements.threadReplyModal.title')}
+                value={textInputs.classicText}
+                onChange={(e) => setTextInputs({ ...textInputs, classicText: e.target.value })}
+              />
+            )
+            : null
+          }
           <TextInput
             type="textarea"
             customClass="message-textarea"
             placeholder={t('subsAchievements.threadReplyModal.message')}
-            value={textareaValue}
-            onChange={(e) => setTextareaValue(e.target.value)}
+            value={textInputs.textarea}
+            onChange={(e) => setTextInputs({ ...textInputs, textarea: e.target.value })}
           />
         </div>
         <div className="thread-reply-modal-footer">
           <Button
             primary
-            content={t('subsAchievements.threadReplyModal.send')}
+            content={!replyingTo?.create ? t('subsAchievements.threadReplyModal.send') : t('subsAchievements.threadReplyModal.create')}
             clickAction={() => {
-              replytToThread(replyingTo, {
-                parent_id: replyingTo.id,
-                subcat_id: replyingTo.subcat_id,
-                username: user.username,
-                user_id: user.id,
-                message: textareaValue,
-                children: [],
-                voted: null,
-              }).then(() => {
-                setIsReplyModalOpen(false);
-                setTextareaValue('');
-              });
+              if (!replyingTo?.create) {
+                replytToThread(replyingTo, {
+                  parent_id: replyingTo.id,
+                  subcat_id: replyingTo.subcat_id,
+                  username: user.username,
+                  user_id: user.id,
+                  message: textInputs.textarea,
+                  children: [],
+                  voted: null,
+                }).then(() => {
+                  setIsReplyModalOpen(false);
+                  setTextInputs({ ...textInputs, textarea: '' });
+                });
+              } else {
+                createNewThread({
+                  subcat_id: replyingTo.subcat_id,
+                  username: user.username,
+                  user_id: user.id,
+                  message: textInputs.textarea,
+                  title: textInputs.classicText,
+                  children: [],
+                  voted: null,
+                }).then(() => {
+                  setIsReplyModalOpen(false);
+                  setTextInputs({ classicText: '', textarea: '' });
+                });
+              }
             }}
           />
         </div>
@@ -228,8 +278,29 @@ export default function Threads({ currentSubId }) {
   }, []);
 
   return (
+    <>
+      {replyModal()}
+      {
     !currentThread ? (
       <div className="threads-achievements-container">
+        <Button
+          customClass="all-threads-btn create-thread-btn"
+          primary
+          empty
+          content={(
+            <div className="all-threads-btn-content">
+              <SVG src={crossIcon} />
+              {t('subsAchievements.createThread')}
+            </div>
+          )}
+          clickAction={() => {
+            setReplyingTo({
+              subcat_id: currentSubId,
+              create: true,
+            });
+            setIsReplyModalOpen(true);
+          }}
+        />
         {threads.map((thread) => (
           <Card
             key={`thread-${thread.created_at}-${thread.message}`}
@@ -238,7 +309,7 @@ export default function Threads({ currentSubId }) {
             customClass="thread-card"
             title={(
               <div className="thread-title">
-                <span className="big-title">{thread.message}</span>
+                <span className="big-title">{thread.title}</span>
                 <span className="username">{`${thread.username || 'unknown_user'}`}</span>
               </div>
             )}
@@ -277,7 +348,7 @@ export default function Threads({ currentSubId }) {
           customClass="thread-card"
           title={(
             <div className="thread-title">
-              <span className="big-title">{currentThread.message}</span>
+              <span className="big-title">{currentThread.title}</span>
               <span className="username">{`${currentThread.username || 'unknown_user'}`}</span>
             </div>
           )}
@@ -306,9 +377,10 @@ export default function Threads({ currentSubId }) {
           )}
         />
         {currentThread.children ? renderChildren(currentThread.children, 0) : null}
-        {replyModal()}
       </div>
     )
+    }
+    </>
   );
 }
 Threads.propTypes = {
