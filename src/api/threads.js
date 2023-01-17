@@ -3,9 +3,8 @@ import appConfig from '../config/config';
 
 const port = 3004;
 
-// todo add userId to url
-export const getThreadsFromSub = (subId) => new Promise((resolve, reject) => {
-  axios.get(`${appConfig.baseUrlApi}:${port}/threads/${subId}`)
+export const getThreadsFromSub = (subId, userId) => new Promise((resolve, reject) => {
+  axios.get(`${appConfig.baseUrlApi}:${port}/threads/${subId}/${userId}`)
     .then((response) => resolve(response.data))
     .catch((err) => reject(err));
 });

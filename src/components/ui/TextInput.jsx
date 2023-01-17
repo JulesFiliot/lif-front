@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import '../../styles/components/ui/textInput.scss';
 
 export default function TextInput({
-  value, placeholder, onChange, style, type, error, disabled,
+  value, placeholder, onChange, style, type, error, disabled, customClass,
 }) {
   const [inputValue, setInputValue] = useState('');
 
@@ -20,7 +20,7 @@ export default function TextInput({
   };
 
   return (
-    <div style={style} className="text-input-container">
+    <div style={style} className={`text-input-container${customClass ? ` ${customClass}` : ''}`}>
       {type !== 'textarea' ? (
         <input
           className={`text-input${disabled ? ' disabled' : ''}`}
@@ -51,6 +51,7 @@ TextInput.propTypes = {
   type: PropTypes.string,
   error: PropTypes.string,
   disabled: PropTypes.bool,
+  customClass: PropTypes.string,
 };
 TextInput.defaultProps = {
   value: '',
@@ -60,4 +61,5 @@ TextInput.defaultProps = {
   type: 'text',
   error: '',
   disabled: false,
+  customClass: '',
 };

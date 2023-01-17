@@ -3,34 +3,32 @@ import { useSelector } from 'react-redux';
 import { t } from 'i18next';
 import PropTypes from 'prop-types';
 import { toast } from 'react-hot-toast';
+import Modal from '@mui/material/Modal';
 import SVG from 'react-inlinesvg';
 
 import Card from './ui/Card';
 import UserActionBar from './ui/UserActionBar';
 import Button from './ui/Button';
+import TextInput from './ui/TextInput';
 import chevronLeft from '../assets/chevron_left.svg';
 
 import { createThread, getThreadsFromSub, voteThread } from '../api/threads';
 
 import '../styles/components/threads.scss';
-import TextInput from './ui/TextInput';
 
 export default function Threads({ currentSubId }) {
   const user = useSelector((state) => state.userReducer);
   const [threads, setThreads] = useState([]);
   const [currentThread, setCurrentThread] = useState(null);
   const [textareaValue, setTextareaValue] = useState('');
-  const voted = { down: 'down', up: 'up' };
-
-  const voteForThread = async (threadId, vote, cancel) => (new Promise((resolve, reject) => {
-    voteThread(threadId, { user_id: user.id, vote, cancel })
-      .then((res) => resolve(res))
-      .catch((err) => { reject(err); toast.error(err.message); });
-  }));
+  const [isReplyModalOpen, setIsReplyModalOpen] = useState(false);
+  const [replyingTo, setReplyingTo] = useState(null);
+  const voted = { down: 'down', up: 'up', no: 'no' };
 
   function replaceObject(id, newObject, list) {
     function findAndReplace(obj) {
       if (obj.id === id) {
+        console.log('FOUND!');
         return newObject;
       }
       if (obj.children) {
@@ -42,28 +40,61 @@ export default function Threads({ currentSubId }) {
     return list.map(findAndReplace);
   }
 
+  const voteForThread = async (thread, vote, cancel) => (new Promise((resolve, reject) => {
+    voteThread(thread.id, { user_id: user.id, vote, cancel })
+      .then((res) => {
+        let newScore;
+        if ((cancel && vote === voted.up) || vote === voted.down) {
+          newScore = thread.score - 1;
+        } else {
+          newScore = thread.score + 1;
+        }
+
+        const newThread = { ...thread, voted: cancel ? voted.no : vote, score: newScore };
+        const newThreadsList = [...threads];
+        replaceObject(thread.id, newThread, newThreadsList);
+        setThreads(newThreadsList);
+        console.log({ newThread });
+        console.log({ newThreadsList });
+        resolve(res);
+      })
+      .catch((err) => { reject(err); toast.error(err.message); });
+  }));
+
   const replytToThread = async (thread, payload) => (new Promise((resolve, reject) => {
     createThread(payload)
-      .then(() => {
-        // todo use response data instead of payload
+      .then((resId) => {
         const newThread = { ...thread };
         const newThreadsList = threads;
 
         if (newThread.children && newThread.children.length >= 0) {
-          newThread.children.push(payload);
+          newThread.children.push({ ...payload, id: resId });
         } else {
-          newThread.children = [payload];
+          newThread.children = [{ ...payload, id: resId }];
         }
         replaceObject(thread.id, newThread, newThreadsList);
         setCurrentThread({ ...currentThread, childrenCount: currentThread.childrenCount + 1 });
-        threads.find((th) => th.id === thread.id).childrenCount += 1;
+        threads.find((th) => th.id === currentThread.id).childrenCount += 1;
         resolve();
       })
       .catch((err) => { reject(err); toast.error(err.message); });
   }));
 
   const extractData = (data) => {
-    const everyThread = Object.entries(data).map(([key, value]) => ({ ...value, id: key }));
+    const everyThread = Object.entries(data).map(([key, value]) => {
+      if (!value.children && !value.voted) {
+        return ({
+          ...value, children: [], voted: null, id: key,
+        });
+      }
+      if (!value.children) {
+        return ({ ...value, children: [], id: key });
+      }
+      if (!value.voted) {
+        return ({ ...value, voted: null, id: key });
+      }
+      return ({ ...value, id: key });
+    });
     return everyThread;
   };
 
@@ -107,6 +138,7 @@ export default function Threads({ currentSubId }) {
           {children.map((child) => (
             <div key={`child-thread-${child.created_at}-${child.message}`}>
               <Card
+                // width={`calc(100% - ${nestingLevel * 20}px)`}
                 hasDropdown
                 alwaysOpen
                 title={(
@@ -121,16 +153,13 @@ export default function Threads({ currentSubId }) {
                       score={child.score}
                       hasVoteBtn
                       hasReply
-                      replyAction={() => replytToThread(child, {
-                        parent_id: child.id,
-                        subcat_id: child.subcat_id,
-                        username: user.username,
-                        user_id: user.id,
-                        message: 'Easy reaply test 101',
-                      })}
+                      replyAction={() => {
+                        setReplyingTo(child);
+                        setIsReplyModalOpen(true);
+                      }}
                       noCommentsCount
-                      onVoteUp={() => voteForThread(child.id, 'up', !!child.voted)}
-                      onVoteDown={() => voteForThread(child.id, 'down', !!child.voted)}
+                      onVoteUp={() => voteForThread(child, voted.up, child.voted !== voted.no)}
+                      onVoteDown={() => voteForThread(child, voted.down, child.voted !== voted.no)}
                       votedDown={child.voted === voted.down}
                       votedUp={child.voted === voted.up}
                     />
@@ -145,9 +174,48 @@ export default function Threads({ currentSubId }) {
     );
   };
 
-  useEffect(() => {
-    console.log({ textareaValue });
-  }, [textareaValue]);
+  const replyModal = () => (
+    <Modal
+      className="thread-reply-modal"
+      open={isReplyModalOpen}
+      onClose={() => setIsReplyModalOpen(false)}
+    >
+      <div className="thread-reply-modal-container">
+        <div className="thread-reply-modal-header">
+          {`${t('subsAchievements.threadReplyModal.replyTo')} ${replyingTo?.username}`}
+        </div>
+        <div className="thread-reply-modal-content">
+          <TextInput
+            type="textarea"
+            customClass="message-textarea"
+            placeholder={t('subsAchievements.threadReplyModal.message')}
+            value={textareaValue}
+            onChange={(e) => setTextareaValue(e.target.value)}
+          />
+        </div>
+        <div className="thread-reply-modal-footer">
+          <Button
+            primary
+            content={t('subsAchievements.threadReplyModal.send')}
+            clickAction={() => {
+              replytToThread(replyingTo, {
+                parent_id: replyingTo.id,
+                subcat_id: replyingTo.subcat_id,
+                username: user.username,
+                user_id: user.id,
+                message: textareaValue,
+                children: [],
+                voted: null,
+              }).then(() => {
+                setIsReplyModalOpen(false);
+                setTextareaValue('');
+              });
+            }}
+          />
+        </div>
+      </div>
+    </Modal>
+  );
 
   useEffect(() => {
     getThreadsFromSub(currentSubId, user.id)
@@ -162,12 +230,6 @@ export default function Threads({ currentSubId }) {
   return (
     !currentThread ? (
       <div className="threads-achievements-container">
-        <TextInput
-          placeholder={t('login.email')}
-          type="textarea"
-          value={textareaValue}
-          onChange={(e) => setTextareaValue(e.target.value)}
-        />
         {threads.map((thread) => (
           <Card
             key={`thread-${thread.created_at}-${thread.message}`}
@@ -186,8 +248,8 @@ export default function Threads({ currentSubId }) {
                 score={thread.score}
                 commentsCount={thread.childrenCount}
                 hasVoteBtn
-                onVoteUp={() => voteForThread(thread.id, 'up', !!thread.voted)}
-                onVoteDown={() => voteForThread(thread.id, 'down', !!thread.voted)}
+                onVoteUp={() => voteForThread(thread, voted.up, thread.voted !== voted.no)}
+                onVoteDown={() => voteForThread(thread, voted.down, thread.voted !== voted.no)}
                 votedDown={thread.voted === voted.down}
                 votedUp={thread.voted === voted.up}
               />
@@ -206,7 +268,7 @@ export default function Threads({ currentSubId }) {
               <SVG src={chevronLeft} />
               {t('subsAchievements.allThreads')}
             </div>
-)}
+          )}
           clickAction={() => setCurrentThread(null)}
         />
         <Card
@@ -227,15 +289,16 @@ export default function Threads({ currentSubId }) {
                 commentsCount={currentThread.childrenCount}
                 hasVoteBtn
                 hasReply
-                replyAction={() => replytToThread(currentThread, {
-                  parent_id: currentThread.id,
-                  subcat_id: currentThread.subcat_id,
-                  username: user.username,
-                  user_id: user.id,
-                  message: 'Easy reaply test 101',
-                })}
-                onVoteUp={() => voteForThread(currentThread.id, 'up', !!currentThread.voted)}
-                onVoteDown={() => voteForThread(currentThread.id, 'down', !!currentThread.voted)}
+                replyAction={() => {
+                  setReplyingTo(currentThread);
+                  setIsReplyModalOpen(true);
+                }}
+                onVoteUp={
+                  () => voteForThread(currentThread, voted.up, currentThread.voted !== voted.no)
+                }
+                onVoteDown={
+                  () => voteForThread(currentThread, voted.down, currentThread.voted !== voted.no)
+                }
                 votedDown={currentThread.voted === voted.down}
                 votedUp={currentThread.voted === voted.up}
               />
@@ -243,6 +306,7 @@ export default function Threads({ currentSubId }) {
           )}
         />
         {currentThread.children ? renderChildren(currentThread.children, 0) : null}
+        {replyModal()}
       </div>
     )
   );

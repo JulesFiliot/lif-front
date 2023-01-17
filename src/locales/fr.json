@@ -50,6 +50,12 @@
         "add": "Ajouter",
         "quickAdd": "Ajout rapide",
         "remove": "Supprimer"
+      },
+      "threadReplyModal": {
+        "replyTo": "Répondre à",
+        "send": "Envoyer",
+        "title": "Titre",
+        "message": "Message"
       }
     },
     "userActionBar": {
