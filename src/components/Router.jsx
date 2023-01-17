@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { Routes, Route, Navigate } from 'react-router-dom';
 
 // pages import
@@ -7,8 +8,13 @@ import Achievements from '../pages/Achievements';
 import Login from './Login';
 import Register from './Register';
 import ProtectedRoute from './ProtectedRoute';
+import { setAxiosHeaders } from '../config/config';
 
 function Router() {
+  const token = useSelector((state) => state.userReducer.token);
+
+  useEffect(() => setAxiosHeaders(token), [token]);
+
   return (
     <Routes>
       <Route element={<ProtectedRoute isLoggedIn redirectTo="/profile" />}>

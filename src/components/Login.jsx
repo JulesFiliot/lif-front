@@ -62,6 +62,7 @@ export default function Login() {
               username: res?.user?.username,
               bio: res?.user?.bio,
               token: res?.token,
+              subcat_count: res?.user?.subcat_count,
             },
           });
           navigate('/profile', { replace: true });

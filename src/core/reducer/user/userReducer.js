@@ -6,6 +6,8 @@ const initialState = {
   username: null,
   bio: null,
   token: null,
+  subcat_count: {},
+  user_achievements: [],
 };
 
 // eslint-disable-next-line default-param-last

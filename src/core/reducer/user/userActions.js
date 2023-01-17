@@ -5,9 +5,6 @@ export const setUser = (payload) => ({
   type: SET_USER,
   payload,
 });
-export const logout = () => {
-  console.log('logging out');
-  return ({
-    type: LOGOUT,
-  });
-};
+export const logout = () => ({
+  type: LOGOUT,
+});
