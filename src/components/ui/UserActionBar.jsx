@@ -14,6 +14,7 @@ export default function UserActionBar({
   score, onVoteDown, onVoteUp,
   commentsCount, hasReply, hasVoteBtn,
   noCommentsCount, votedDown, votedUp,
+  replyAction,
 }) {
   return (
     <div className="user-action-bar-container">
@@ -44,7 +45,7 @@ export default function UserActionBar({
       )}
       {hasReply && (
         <div className="reply-container">
-          <Button content={t('userActionBar.reply')} />
+          <Button clickAction={replyAction} content={t('userActionBar.reply')} />
         </div>
       )}
     </div>
@@ -60,10 +61,12 @@ UserActionBar.propTypes = {
   noCommentsCount: PropTypes.bool,
   votedDown: PropTypes.bool,
   votedUp: PropTypes.bool,
+  replyAction: PropTypes.func,
 };
 UserActionBar.defaultProps = {
   onVoteDown: () => {},
   onVoteUp: () => {},
+  replyAction: () => {},
   hasReply: false,
   hasVoteBtn: false,
   noCommentsCount: false,

@@ -11,13 +11,19 @@ export const getThreadsFromSub = (subId) => new Promise((resolve, reject) => {
 });
 
 export const getAllThreads = () => new Promise((resolve, reject) => {
-  axios.post(`${appConfig.baseUrlApi}:${port}/threads`)
+  axios.get(`${appConfig.baseUrlApi}:${port}/threads`)
     .then((response) => resolve(response.data))
     .catch((err) => reject(err));
 });
 
 export const voteThread = (threadId, payload) => new Promise((resolve, reject) => {
   axios.post(`${appConfig.baseUrlApi}:${port}/vote/${threadId}`, payload)
+    .then((response) => resolve(response.data))
+    .catch((err) => reject(err));
+});
+
+export const createThread = (payload) => new Promise((resolve, reject) => {
+  axios.post(`${appConfig.baseUrlApi}:${port}/thread`, payload)
     .then((response) => resolve(response.data))
     .catch((err) => reject(err));
 });

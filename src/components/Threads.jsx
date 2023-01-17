@@ -10,12 +10,10 @@ import UserActionBar from './ui/UserActionBar';
 import Button from './ui/Button';
 import chevronLeft from '../assets/chevron_left.svg';
 
-import { getThreadsFromSub, voteThread } from '../api/threads';
+import { createThread, getThreadsFromSub, voteThread } from '../api/threads';
 
 import '../styles/components/threads.scss';
 
-// todo tell Pierre to add voted & title on the thread object
-// todo add reply feature
 export default function Threads({ currentSubId }) {
   const user = useSelector((state) => state.userReducer);
   const [threads, setThreads] = useState([]);
@@ -25,6 +23,40 @@ export default function Threads({ currentSubId }) {
   const voteForThread = async (threadId, vote, cancel) => (new Promise((resolve, reject) => {
     voteThread(threadId, { user_id: user.id, vote, cancel })
       .then((res) => resolve(res))
+      .catch((err) => { reject(err); toast.error(err.message); });
+  }));
+
+  function replaceObject(id, newObject, list) {
+    function findAndReplace(obj) {
+      if (obj.id === id) {
+        return newObject;
+      }
+      if (obj.children) {
+        // eslint-disable-next-line no-param-reassign
+        obj.children = obj.children.map(findAndReplace);
+      }
+      return obj;
+    }
+    return list.map(findAndReplace);
+  }
+
+  const replytToThread = async (thread, payload) => (new Promise((resolve, reject) => {
+    createThread(payload)
+      .then(() => {
+        // todo use response data instead of payload
+        const newThread = { ...thread };
+        const newThreadsList = threads;
+
+        if (newThread.children && newThread.children.length >= 0) {
+          newThread.children.push(payload);
+        } else {
+          newThread.children = [payload];
+        }
+        replaceObject(thread.id, newThread, newThreadsList);
+        setCurrentThread({ ...currentThread, childrenCount: currentThread.childrenCount + 1 });
+        threads.find((th) => th.id === thread.id).childrenCount += 1;
+        resolve();
+      })
       .catch((err) => { reject(err); toast.error(err.message); });
   }));
 
@@ -87,6 +119,13 @@ export default function Threads({ currentSubId }) {
                       score={child.score}
                       hasVoteBtn
                       hasReply
+                      replyAction={() => replytToThread(child, {
+                        parent_id: child.id,
+                        subcat_id: child.subcat_id,
+                        username: user.username,
+                        user_id: user.id,
+                        message: 'Easy reaply test 101',
+                      })}
                       noCommentsCount
                       onVoteUp={() => voteForThread(child.id, 'up', !!child.voted)}
                       onVoteDown={() => voteForThread(child.id, 'down', !!child.voted)}
@@ -176,6 +215,13 @@ export default function Threads({ currentSubId }) {
                 commentsCount={currentThread.childrenCount}
                 hasVoteBtn
                 hasReply
+                replyAction={() => replytToThread(currentThread, {
+                  parent_id: currentThread.id,
+                  subcat_id: currentThread.subcat_id,
+                  username: user.username,
+                  user_id: user.id,
+                  message: 'Easy reaply test 101',
+                })}
                 onVoteUp={() => voteForThread(currentThread.id, 'up', !!currentThread.voted)}
                 onVoteDown={() => voteForThread(currentThread.id, 'down', !!currentThread.voted)}
                 votedDown={currentThread.voted === voted.down}
