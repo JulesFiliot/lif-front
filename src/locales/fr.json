@@ -41,6 +41,7 @@
       "title": "Réussites",
       "rank": "Rang",
       "allThreads": "Tous les forums",
+      "createThread": "Créer un forum",
       "horizontalMenu": {
         "achievements": "Réussites",
         "threads": "Forum",
@@ -53,6 +54,13 @@
         "add": "Ajouter",
         "quickAdd": "Ajout rapide",
         "remove": "Supprimer"
+      },
+      "threadReplyModal": {
+        "replyTo": "Répondre à",
+        "send": "Envoyer",
+        "title": "Titre",
+        "message": "Message",
+        "create": "Créer"
       }
     },
     "userActionBar": {

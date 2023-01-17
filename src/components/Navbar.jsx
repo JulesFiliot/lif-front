@@ -49,7 +49,19 @@ export default function Navbar() {
 
   return (
     <div className="navbar-container">
-      <SvgBtn svgSource={chevronLeft} customClass="back-button" onClick={() => navigate(-1)} />
+      <SvgBtn
+        svgSource={chevronLeft}
+        customClass="back-button"
+        onClick={() => {
+          if (achievementPage === achievementPages.subCategoriesAchievements) {
+            navigate(`/achievements?page=${achievementPages.subCategories}`);
+          } else if (achievementPage === achievementPages.subCategories) {
+            navigate(`/achievements?page=${achievementPages.categories}`);
+          } else {
+            navigate(-1);
+          }
+        }}
+      />
       <div className="desktop-menu">
         {navItems.map((item) => {
           if (item.action) {
@@ -66,7 +78,8 @@ export default function Navbar() {
           );
         })}
       </div>
-      {hasSearchBar() && (
+      {/* //todo re-enable search bar when it works with achievements filtering */}
+      {hasSearchBar() && false && (
         <SearchBar
           reqUrl="http://openlibrary.org/search.json"
           reqField="title"
@@ -76,7 +89,7 @@ export default function Navbar() {
           }}
         />
       )}
-      <img src={lifLogo} alt="LIF Logo" className={`logo${hasSearchBar() ? ' hide' : ''}`} />
+      <img src={lifLogo} alt="LIF Logo" className={`logo${(hasSearchBar() && false) ? ' hide' : ''}`} />
       <BurgerMenu items={navItems} />
     </div>
   );

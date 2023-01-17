@@ -79,7 +79,7 @@ export default function SubAchievements() {
       {currentMenu === subAchievementsMenuItems.threads && (
         <Threads currentSubId={currentSubId} />
       )}
-      {currentMenu === subAchievementsMenuItems.validation && ('TODO Validation here')}
+      {currentMenu === subAchievementsMenuItems.validation && ('Building in progress')}
     </div>
   );
 }

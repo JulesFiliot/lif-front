@@ -19,6 +19,12 @@
     fill: $sub-color1;
   }
 
+  .arrow-down {
+    svg {
+      transform: rotate(180deg);
+    }
+  }
+
   .arrow-down,
   .arrow-up {
     path {
@@ -33,11 +39,9 @@
         stroke: $main-color;
       }
     }
-  }
 
-  .arrow-down {
-    svg {
-      transform: rotate(180deg);
+    &:focus {
+      opacity: 1;
     }
   }
 

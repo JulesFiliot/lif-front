@@ -7,6 +7,13 @@
   padding-left: 10px;
   padding-right: 10px;
 
+  .message {
+    white-space: pre-wrap;
+    text-align: start;
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+
   .thread-card {
     .card-header {
       height: 60px;
@@ -14,11 +21,16 @@
   }
 
   .thread-title {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    text-transform: none;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
+    text-transform: none;
+
+    .big-title {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      text-transform: none;
+    }
 
     .username {
       color: $sub-color1-darker;
@@ -26,7 +38,7 @@
   }
 
   .all-threads-btn {
-    width: 130px;
+    width: 140px;
     margin-bottom: 15px;
 
     .all-threads-btn-content {
@@ -42,6 +54,28 @@
         height: 15px;
         stroke: $sub-color1;
         path { fill: $sub-color1; }
+      }
+    }
+
+    &:focus {
+      opacity: 1;
+    }
+  }
+
+  .create-thread-btn {
+    width: 180px;
+
+    .all-threads-btn-content {
+      svg {
+        width: 22px;
+        height: 22px;
+        stroke: $sub-color1;
+        transform: rotate(45deg);
+
+        path {
+          stroke: $sub-color1;
+          stroke-width: 1.5px;
+        }
       }
     }
   }
@@ -66,7 +100,25 @@
     width: 100%;
     margin-bottom: 8px;
 
+    .card-header {
+      max-height: fit-content;
+      height: 100%;
+
+      .thread-title {
+        .big-title {
+          white-space: pre-wrap;
+          word-break: break-word;
+          overflow-wrap: break-word;
+        }
+
+        .username {
+          color: $sub-color1-darker;
+        }
+      }
+    }
+
     .card-dropdown {
+      max-height: fit-content;
       padding-bottom: 0;
 
       .user-action-bar-container {
@@ -88,7 +140,7 @@
     flex-direction: row;
 
     .nesting-line {
-      width: 2px;
+      width: 1px;
       height: auto;
       background-color: $sub-color1;
       margin-right: 10px;
@@ -99,6 +151,81 @@
       width: 100%;
       display: flex;
       flex-direction: column;
+    }
+  }
+}
+
+.thread-reply-modal {
+  margin: auto;
+  width: 350px;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .thread-reply-modal-container {
+    padding-top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: $background-color-lighter;
+    border-radius: 5px;
+
+    .thread-reply-modal-header {
+      width: 100%;
+      height: 50px;
+      text-align: center;
+      padding: 10px;
+      font-size: $font-size-regular + 3px;
+      background-color: $main-color-darker;
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px;
+    }
+
+    .thread-reply-modal-content {
+      width: 100%;
+      height: calc(100% - 100px);
+      padding: 10px;
+      padding-bottom: 0;
+
+      .message-textarea {
+        width: 100%;
+        height: 100%;
+
+        .text-input {
+          background-color: $background-color;
+          height: 100%;
+        }
+      }
+
+      .classic-text {
+        width: 100%;
+        height: 35px;
+        margin-bottom: 5px;
+
+        .text-input {
+          height: 100%;
+          background-color: $background-color;
+        }
+      }
+
+      &.create-thread {
+        .message-textarea {
+          height: calc(100% - 40px);
+        }
+      }
+    }
+
+    .thread-reply-modal-footer {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      height: 50px;
+      width: 100%;
+
+      .button-classic {
+        width: 180px;
+      }
     }
   }
 }

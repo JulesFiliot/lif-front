@@ -20,7 +20,7 @@ export default function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [errors, setErrors] = useState({ email: null, password: null });
-  const [credentials, setCredentials] = useState({ email: null, password: null });
+  const [credentials, setCredentials] = useState({ email: '', password: '' });
   const [isLoading, setIsLoading] = useState(false);
 
   const credentialsCheck = (creds) => {

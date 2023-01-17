@@ -4,12 +4,14 @@ import PropTypes from 'prop-types';
 import '../../styles/components/ui/textInput.scss';
 
 export default function TextInput({
-  value, placeholder, onChange, style, type, error, disabled,
+  value, placeholder, onChange, style, type, error, disabled, customClass,
 }) {
   const [inputValue, setInputValue] = useState('');
 
   const handleChange = (event) => {
-    if (!value) {
+    if (value === '') {
+      setInputValue('');
+    } else if (!value) {
       setInputValue(event.target.value);
     }
     if (onChange) {
@@ -18,15 +20,25 @@ export default function TextInput({
   };
 
   return (
-    <div style={style} className="text-input-container">
-      <input
-        className={`text-input${disabled ? ' disabled' : ''}`}
-        type={type}
-        value={value || inputValue}
-        placeholder={placeholder}
-        onChange={handleChange}
-        disabled={disabled}
-      />
+    <div style={style} className={`text-input-container${customClass ? ` ${customClass}` : ''}`}>
+      {type !== 'textarea' ? (
+        <input
+          className={`text-input${disabled ? ' disabled' : ''}`}
+          type={type}
+          value={value || inputValue}
+          placeholder={placeholder}
+          onChange={handleChange}
+          disabled={disabled}
+        />
+      ) : (
+        <textarea
+          className={`text-input${disabled ? ' disabled' : ''}`}
+          value={value || inputValue}
+          placeholder={placeholder}
+          onChange={handleChange}
+          disabled={disabled}
+        />
+      )}
       {error && <div className="error-message">{error}</div>}
     </div>
   );
@@ -39,6 +51,7 @@ TextInput.propTypes = {
   type: PropTypes.string,
   error: PropTypes.string,
   disabled: PropTypes.bool,
+  customClass: PropTypes.string,
 };
 TextInput.defaultProps = {
   value: '',
@@ -48,4 +61,5 @@ TextInput.defaultProps = {
   type: 'text',
   error: '',
   disabled: false,
+  customClass: '',
 };
