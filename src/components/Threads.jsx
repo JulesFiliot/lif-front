@@ -13,11 +13,13 @@ import chevronLeft from '../assets/chevron_left.svg';
 import { createThread, getThreadsFromSub, voteThread } from '../api/threads';
 
 import '../styles/components/threads.scss';
+import TextInput from './ui/TextInput';
 
 export default function Threads({ currentSubId }) {
   const user = useSelector((state) => state.userReducer);
   const [threads, setThreads] = useState([]);
   const [currentThread, setCurrentThread] = useState(null);
+  const [textareaValue, setTextareaValue] = useState('');
   const voted = { down: 'down', up: 'up' };
 
   const voteForThread = async (threadId, vote, cancel) => (new Promise((resolve, reject) => {
@@ -114,7 +116,7 @@ export default function Threads({ currentSubId }) {
               )}
                 dropdownContent={(
                   <div className="thread-comment-content">
-                    <div>{child.message}</div>
+                    <div className="message">{child.message}</div>
                     <UserActionBar
                       score={child.score}
                       hasVoteBtn
@@ -144,6 +146,10 @@ export default function Threads({ currentSubId }) {
   };
 
   useEffect(() => {
+    console.log({ textareaValue });
+  }, [textareaValue]);
+
+  useEffect(() => {
     getThreadsFromSub(currentSubId, user.id)
       .then((res) => {
         const extractedData = extractData(res);
@@ -156,6 +162,12 @@ export default function Threads({ currentSubId }) {
   return (
     !currentThread ? (
       <div className="threads-achievements-container">
+        <TextInput
+          placeholder={t('login.email')}
+          type="textarea"
+          value={textareaValue}
+          onChange={(e) => setTextareaValue(e.target.value)}
+        />
         {threads.map((thread) => (
           <Card
             key={`thread-${thread.created_at}-${thread.message}`}
@@ -209,7 +221,7 @@ export default function Threads({ currentSubId }) {
           )}
           dropdownContent={(
             <div className="thread-comment-content">
-              <div>{`${currentThread.message}`}</div>
+              <div className="message">{`${currentThread.message}`}</div>
               <UserActionBar
                 score={currentThread.score}
                 commentsCount={currentThread.childrenCount}

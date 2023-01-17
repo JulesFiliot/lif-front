@@ -7,6 +7,10 @@
   padding-left: 10px;
   padding-right: 10px;
 
+  .message {
+    white-space: pre;
+  }
+
   .thread-card {
     .card-header {
       height: 60px;

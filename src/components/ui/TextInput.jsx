@@ -9,7 +9,9 @@ export default function TextInput({
   const [inputValue, setInputValue] = useState('');
 
   const handleChange = (event) => {
-    if (!value) {
+    if (value === '') {
+      setInputValue('');
+    } else if (!value) {
       setInputValue(event.target.value);
     }
     if (onChange) {
@@ -19,14 +21,24 @@ export default function TextInput({
 
   return (
     <div style={style} className="text-input-container">
-      <input
-        className={`text-input${disabled ? ' disabled' : ''}`}
-        type={type}
-        value={value || inputValue}
-        placeholder={placeholder}
-        onChange={handleChange}
-        disabled={disabled}
-      />
+      {type !== 'textarea' ? (
+        <input
+          className={`text-input${disabled ? ' disabled' : ''}`}
+          type={type}
+          value={value || inputValue}
+          placeholder={placeholder}
+          onChange={handleChange}
+          disabled={disabled}
+        />
+      ) : (
+        <textarea
+          className={`text-input${disabled ? ' disabled' : ''}`}
+          value={value || inputValue}
+          placeholder={placeholder}
+          onChange={handleChange}
+          disabled={disabled}
+        />
+      )}
       {error && <div className="error-message">{error}</div>}
     </div>
   );
