@@ -24,7 +24,7 @@ export default function Navbar() {
   const subAchievementsMenu = urlParams.get('menu');
   const navItems = [
     { name: t('navbar.profile'), link: '/profile' },
-    { name: t('navbar.achievements'), link: `/achievements?page=${achievementPages.categories}` },
+    { name: t('navbar.browse'), link: `/achievements?page=${achievementPages.categories}` },
     { name: t('navbar.discover'), link: '/discover' },
     { name: t('navbar.logout'), action: () => dispatch(logout()) },
   ];

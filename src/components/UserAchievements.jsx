@@ -15,48 +15,56 @@ import UserAchievementsList from './UserAchievementsList';
 import { setUser } from '../core/reducer/user/userActions';
 
 export default function UserAchievements() {
-  const userId = useSelector((state) => state.userReducer.id);
-  const [achievements, setAchievements] = useState([]);
   const user = useSelector((state) => state.userReducer);
-  getUser(userId).then((data) => {
-    setUser(data);
-  });
+  const [achievements, setAchievements] = useState([]);
+
   useEffect(() => {
-    if (userId) {
-      let userAchievements = [];
-      const promises = [];
-      if (user.subcat_count) {
-        Object.keys(user.subcat_count).forEach((subcatId) => {
-          promises.push(getSubsFormCategory(subcatId, userId)
-            .then((data) => {
-              const dataArray = Object.entries(data).map(([key, value]) => ({
-                id: key,
-                ...value,
-              }));
-              userAchievements = userAchievements ? userAchievements.concat(dataArray) : dataArray;
-              return dataArray;
-            })
-            .catch((err) => toast.error(err.message)));
-        });
-        Promise.all(promises).then(() => {
-          Object.keys(userAchievements).forEach((item) => {
-            if (!userAchievements[item].user_achievement_id) {
-              delete userAchievements[item];
-            }
+    if (user.id) {
+      getUser(user.id).then((data) => {
+        setUser(data);
+
+        let userAchievements = [];
+        const promises = [];
+        if (data.subcat_count) {
+          Object.keys(data.subcat_count).forEach((subcatId) => {
+            promises.push(getSubsFormCategory(subcatId, user.id)
+              .then((ach) => {
+                const dataArray = Object.entries(ach).map(([key, value]) => ({
+                  id: key,
+                  ...value,
+                }));
+                userAchievements = userAchievements
+                  ? userAchievements.concat(dataArray)
+                  : dataArray;
+                return dataArray;
+              })
+              .catch((err) => toast.error(err.message)));
           });
-          setAchievements(userAchievements);
-        });
-      }
+          Promise.all(promises).then(() => {
+            Object.keys(userAchievements).forEach((item) => {
+              if (!userAchievements[item].user_achievement_id) {
+                delete userAchievements[item];
+              }
+            });
+            setAchievements(userAchievements);
+          });
+        }
+      }).catch((err) => toast.error(err.message));
     }
-  }, [userId]);
+  }, [user.id]);
 
   return (
     <div className="sub-achievements-container">
-      <Title text={t('profile.title')} />
-
-      <div style={{ margin: '15px 0' }} />
-
-      <UserAchievementsList currentSubId={null} achievementsDefault={achievements} />
+      <Title
+        text={(
+          <>
+            {`${t('profile.profileOf')}`}
+            <span className="title-h1 username">{` ${user.username}`}</span>
+          </>
+        )}
+      />
+      <div style={{ margin: '5px 0' }} />
+      <UserAchievementsList achievementsDefault={achievements} />
     </div>
   );
 }

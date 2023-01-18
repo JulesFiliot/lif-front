@@ -42,7 +42,7 @@ export default function Subs() {
               width="300px"
               title={value}
               onClick={() => {
-                dispatch({ type: SET_SUB, payload: key });
+                dispatch({ type: SET_SUB, payload: { id: key, name: value } });
                 navigate(`/achievements?page=${achievementPages.subCategoriesAchievements}&menu=${subAchievementsMenuItems.achievements}`);
               }}
             />

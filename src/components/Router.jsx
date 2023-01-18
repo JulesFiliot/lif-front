@@ -20,7 +20,16 @@ function Router() {
         <Route element={<Layout />}>
           <Route exact path="/achievements" element={<Achievements />} />
           <Route exact path="/profile" element={<Profile />} />
-          <Route exact path="/discover" element={<Achievements />} />
+          <Route
+            exact
+            path="/discover"
+            // todo delete when discover page is ready
+            element={(
+              <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+                Building in progress...
+              </div>
+            )}
+          />
         </Route>
       </Route>
 

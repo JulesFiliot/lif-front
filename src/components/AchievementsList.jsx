@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { t } from 'i18next';
@@ -20,7 +21,7 @@ import '../styles/components/achievementsList.scss';
 import '../styles/components/ui/dotMenuBtn.scss';
 import '../styles/components/ui/popOver.scss';
 
-export default function AchievementsList({ achievementsDefault, currentSubId }) {
+export default function AchievementsList({ achievementsDefault, currentSub }) {
   const userId = useSelector((state) => state.userReducer.id);
   const [achievements, setAchievements] = useState([]);
   const [loaders, setLoaders] = useState({});
@@ -35,7 +36,7 @@ export default function AchievementsList({ achievementsDefault, currentSubId }) 
       user_achievement: {
         user_id: userId,
         achievement_id: achievementToAdd?.id,
-        subcat_id: currentSubId,
+        subcat_id: currentSub.id,
       },
     })
       .then((data) => {
@@ -61,7 +62,7 @@ export default function AchievementsList({ achievementsDefault, currentSubId }) 
       user_achievement: {
         user_id: userId,
         user_achievement_id: achievementToDelete.user_achievement_id,
-        subcat_id: currentSubId,
+        subcat_id: currentSub.id,
       },
     })
       .then(() => {
@@ -182,5 +183,5 @@ export default function AchievementsList({ achievementsDefault, currentSubId }) 
 }
 AchievementsList.propTypes = {
   achievementsDefault: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  currentSubId: PropTypes.string.isRequired,
+  currentSub: PropTypes.shape({}).isRequired,
 };

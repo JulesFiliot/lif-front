@@ -28,7 +28,8 @@
       "profile": "Profile",
       "achievements": "Achievements",
       "discover": "Discover",
-      "logout": "Logout"
+      "logout": "Logout",
+      "browse": "Browse"
     },
     "categories": {
       "title": "Categories"
@@ -38,7 +39,8 @@
       "singular_title": "Sub"
     },
     "profile": {
-      "title": "Profile"
+      "title": "Profile",
+      "profileOf": "Profile of"
     },
     "subsAchievements": {
       "title": "Achievements",	

@@ -18,7 +18,7 @@ import AchievementsList from './AchievementsList';
 import Threads from './Threads';
 
 export default function SubAchievements() {
-  const currentSubId = useSelector((state) => state.appReducer.sub);
+  const currentSub = useSelector((state) => state.appReducer.sub);
   const userId = useSelector((state) => state.userReducer.id);
   const navigate = useNavigate();
   const location = useLocation();
@@ -52,8 +52,8 @@ export default function SubAchievements() {
   };
 
   useEffect(() => {
-    if (currentSubId) {
-      getSubsFormCategory(currentSubId, userId)
+    if (currentSub.id) {
+      getSubsFormCategory(currentSub.id, userId)
         .then((data) => {
           const dataArray = Object.entries(data).map(([key, value]) => ({
             id: key,
@@ -63,23 +63,23 @@ export default function SubAchievements() {
         })
         .catch((err) => toast.error(err.message));
     }
-  }, [currentSubId]);
+  }, [currentSub.id]);
 
   return (
     <div className="sub-achievements-container">
-      <Title text={t('subsAchievements.title')} />
+      <Title capitalize text={`${currentSub.name}`} />
       <HorizontalMenu
         activeId={getCurrentMenu()}
         data={horizontalMenuItems}
       />
       <div style={{ margin: '15px 0' }} />
       {currentMenu === subAchievementsMenuItems.achievements && (
-        <AchievementsList currentSubId={currentSubId} achievementsDefault={achievements} />
+        <AchievementsList currentSub={currentSub} achievementsDefault={achievements} />
       )}
       {currentMenu === subAchievementsMenuItems.threads && (
-        <Threads currentSubId={currentSubId} />
+        <Threads currentSub={currentSub} />
       )}
-      {currentMenu === subAchievementsMenuItems.validation && ('Building in progress')}
+      {currentMenu === subAchievementsMenuItems.validation && ('Building in progress...')}
     </div>
   );
 }

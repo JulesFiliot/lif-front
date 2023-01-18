@@ -6,12 +6,14 @@ import Popover from '@mui/material/Popover';
 import PropTypes from 'prop-types';
 import SVG from 'react-inlinesvg';
 import Card from './ui/Card';
+import SvgBtn from './ui/SvgBtn';
 import Loader from './ui/Loader';
 
 import { removeAchievement } from '../api/achievements';
 import chevronLeft from '../assets/chevron_left.svg';
 import checkIcon from '../assets/check.svg';
 import binIcon from '../assets/bin.svg';
+import dotMenu from '../assets/dot_menu.svg';
 
 import '../styles/components/achievementsList.scss';
 import '../styles/components/ui/dotMenuBtn.scss';
@@ -32,17 +34,12 @@ export default function UserAchievementsList({ achievementsDefault }) {
       user_achievement: {
         user_id: userId,
         user_achievement_id: achievementToDelete.user_achievement_id,
-        subcat_id: null,
+        subcat_id: achievementToDelete.subcat_id,
       },
     })
       .then(() => {
-        const index = achievements
-          .findIndex((el) => el.id === achievementToDelete?.id);
-        if (index + 1) {
-          const newAchievements = [...achievements];
-          delete newAchievements[index].user_achievement_id;
-          setAchievements(newAchievements);
-        }
+        const newAchievements = achievements.filter((ach) => ach.id !== achievementToDelete?.id);
+        setAchievements(newAchievements);
       })
       .catch((err) => toast.error(err.message))
       .finally(() => setLoaders({ ...loaders, [achievementToDelete?.id]: false }));
@@ -67,17 +64,15 @@ export default function UserAchievementsList({ achievementsDefault }) {
         }}
       >
         <div className="actions-container">
-          {!currentAchievement?.(
-            <div className="action-item">
-              <button
-                type="button"
-                onClick={() => deleteAchievement(currentAchievement)}
-              >
-                {t('subsAchievements.actionsMenu.remove')}
-                <SVG src={binIcon} className="bin-icon" />
-              </button>
-            </div>,
-          )}
+          <div className="action-item">
+            <button
+              type="button"
+              onClick={() => deleteAchievement(currentAchievement)}
+            >
+              {t('subsAchievements.actionsMenu.remove')}
+              <SVG src={binIcon} className="bin-icon" />
+            </button>
+          </div>
         </div>
       </Popover>
     );
@@ -106,7 +101,14 @@ export default function UserAchievementsList({ achievementsDefault }) {
                   && actionPopoverData.open
                   && actionPopover()
                 }
-
+                <SvgBtn
+                  svgSource={dotMenu}
+                  customClass="dot-menu-button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setActionPopoverData({ anchorEl: e.currentTarget, open: true, achievement: a });
+                  }}
+                />
               </>
             ) : <Loader />}
             noHover
@@ -118,7 +120,7 @@ export default function UserAchievementsList({ achievementsDefault }) {
                   {`${t('subsAchievements.rank')}: ${a.rank.charAt(0).toUpperCase() + a.rank.slice(1)}`}
                 </div>
               </div>
-)}
+            )}
           />
         ))}
       </div>

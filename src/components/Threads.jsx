@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { t } from 'i18next';
@@ -18,7 +19,7 @@ import { createThread, getThreadsFromSub, voteThread } from '../api/threads';
 
 import '../styles/components/threads.scss';
 
-export default function Threads({ currentSubId }) {
+export default function Threads({ currentSub }) {
   const user = useSelector((state) => state.userReducer);
   const [threads, setThreads] = useState([]);
   const [currentThread, setCurrentThread] = useState(null);
@@ -269,7 +270,7 @@ export default function Threads({ currentSubId }) {
   );
 
   useEffect(() => {
-    getThreadsFromSub(currentSubId, user.id)
+    getThreadsFromSub(currentSub.id, user.id)
       .then((res) => {
         const extractedData = extractData(res);
         const formattedThreads = formatData(extractedData);
@@ -296,7 +297,7 @@ export default function Threads({ currentSubId }) {
           )}
           clickAction={() => {
             setReplyingTo({
-              subcat_id: currentSubId,
+              subcat_id: currentSub.id,
               create: true,
             });
             setIsReplyModalOpen(true);
@@ -385,5 +386,5 @@ export default function Threads({ currentSubId }) {
   );
 }
 Threads.propTypes = {
-  currentSubId: PropTypes.string.isRequired,
+  currentSub: PropTypes.shape({}).isRequired,
 };

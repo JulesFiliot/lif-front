@@ -4,10 +4,22 @@
   width: fit-content;
   margin-top: 10px;
   margin-bottom: 20px;
+  padding-left: 15px;
+  padding-right: 15px;
 
   .title-h1 {
     font-size: 2rem;
     font-weight: normal;
+    word-wrap: break-word;
+    word-break: break-all;
+
+    &.username {
+      color: $main-color;
+    }
+
+    &.capitalize {
+      text-transform: capitalize;
+    }
   }
 
   .underline {
